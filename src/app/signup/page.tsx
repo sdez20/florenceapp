@@ -4,7 +4,7 @@ import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
 
 const fields = [
-  { id: "name", label: "What may Florence call you?", type: "text", placeholder: "Your name" },
+  { id: "name", label: "First and last name", type: "text", placeholder: "Your name" },
   { id: "email", label: "Email", type: "email", placeholder: "you@example.com" },
   { id: "pass", label: "Password", type: "password", placeholder: "Create a password" },
 ];
@@ -21,7 +21,7 @@ export default function SignupPage() {
         <div className="flex flex-1 flex-col justify-center py-[18px]">
           <p className={`${eyebrow} mb-[14px] tracking-[0.3em]`}>Florence</p>
           <h1 className="mb-11 font-serif text-[38px] font-medium leading-[1.08] text-ink">
-            Let&apos;s make your space.
+            Create your space.
           </h1>
 
           <div className="flex flex-col gap-5">
