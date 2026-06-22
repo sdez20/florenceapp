@@ -90,7 +90,7 @@ export default function OnboardingPage() {
                 To begin
               </p>
               <h1 className="mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink">
-                Where is your body right now?
+                What season are you in?
               </h1>
               <div className="flex flex-col gap-[9px]">
                 {seasons.map((s, i) => (
