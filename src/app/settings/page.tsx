@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import PhoneFrame from "@/components/PhoneFrame";
-import BottomNav from "@/components/BottomNav";
+import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
 
 function SectionLabel({ children }: { children: ReactNode }) {
@@ -114,7 +114,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <BottomNav />
+      <NavMenu />
     </PhoneFrame>
   );
 }

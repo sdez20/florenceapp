@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
-import BottomNav from "@/components/BottomNav";
+import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
 import { domains } from "@/lib/domains";
 
@@ -33,7 +33,7 @@ export default function ExplorePage() {
         </div>
       </div>
 
-      <BottomNav />
+      <NavMenu />
     </PhoneFrame>
   );
 }

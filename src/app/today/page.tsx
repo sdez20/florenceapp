@@ -1,9 +1,24 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
-import BottomNav from "@/components/BottomNav";
+import NavMenu from "@/components/NavMenu";
+
+function greetingFor(date: Date) {
+  const hour = date.getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+}
 
 const dims = [
   { label: "Mental", core: "#6E7B4C", words: ["heavy", "foggy", "steady", "clear", "sharp"] },
@@ -29,6 +44,13 @@ export default function TodayPage() {
   const [pct, setPct] = useState(initialPct);
   const [words, setWords] = useState(initialWords);
 
+  // Computed after mount from the user's local time, so there is no
+  // server/client hydration mismatch.
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => setNow(new Date()), []);
+  const greeting = now ? greetingFor(now) : "Hello";
+  const dateLabel = now ? formatDate(now) : " ";
+
   const setDim = (i: number, raw: number) => {
     const p = clamp(raw);
     setPct((prev) => prev.map((v, j) => (j === i ? p : v)));
@@ -38,23 +60,15 @@ export default function TodayPage() {
   return (
     <PhoneFrame>
       <div className="flex flex-1 flex-col overflow-y-auto px-[30px] pb-4 pt-14">
-        <div className="flex items-center justify-between">
-          <div className="font-serif text-[16px] font-medium text-ink-soft">
-            Sunday, 14 June
-          </div>
-          <Link
-            href="/notes"
-            className="text-[12px] font-semibold text-clay no-underline"
-          >
-            Today&apos;s notes &rsaquo;
-          </Link>
+        <div className="font-serif text-[16px] font-medium text-ink-soft">
+          {dateLabel}
         </div>
         <div className="mt-[5px] inline-flex items-center gap-2 text-[12px] font-medium text-ink">
           <span className="h-1.5 w-1.5 rounded-full bg-olive shadow-[0_0_0_4px_rgba(110,123,83,0.15)]" />
           Cycling
         </div>
         <div className="mt-[22px] font-serif text-[32px] font-medium leading-[1.05] text-ink">
-          Good morning,
+          {greeting},
           <br />
           <em className="italic text-clay">Sarah</em>.
         </div>
@@ -118,7 +132,7 @@ export default function TodayPage() {
         )}
       </div>
 
-      <BottomNav />
+      <NavMenu />
     </PhoneFrame>
   );
 }

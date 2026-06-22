@@ -1,5 +1,5 @@
 import PhoneFrame from "@/components/PhoneFrame";
-import BottomNav from "@/components/BottomNav";
+import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
 
 const categories = [
@@ -91,7 +91,7 @@ export default function NotesPage() {
         </span>
       </div>
 
-      <BottomNav />
+      <NavMenu />
     </PhoneFrame>
   );
 }

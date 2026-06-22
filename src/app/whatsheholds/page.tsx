@@ -53,7 +53,7 @@ export default function WhatSheHoldsPage() {
           </div>
         </div>
 
-        <Link href="/howto" className={`${cta} flex-shrink-0`}>
+        <Link href="/today" className={`${cta} flex-shrink-0`}>
           I&apos;m ready
         </Link>
       </div>

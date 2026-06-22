@@ -1,5 +1,5 @@
 import PhoneFrame from "@/components/PhoneFrame";
-import BottomNav from "@/components/BottomNav";
+import NavMenu from "@/components/NavMenu";
 
 type Chapter = {
   season: string;
@@ -94,7 +94,7 @@ export default function StoryPage() {
         ))}
       </div>
 
-      <BottomNav />
+      <NavMenu />
     </PhoneFrame>
   );
 }
