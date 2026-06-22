@@ -2,26 +2,42 @@ import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import { cta, eyebrow } from "@/components/ui";
 
-const blocks = [
+type Block = {
+  title: string;
+  body?: string;
+  items?: { label?: string; text: string }[];
+};
+
+const blocks: Block[] = [
   {
-    title: "What Florence keeps",
-    body: "Your email, so you can sign in. Your season and a little about you, so Florence can meet you where you are. Your check-ins and conversations, so you can look back and see yourself over time.",
+    title: "Data we retain to support you",
+    items: [
+      { label: "Authentication", text: "Your email address for secure account access." },
+      { label: "Personalization", text: "Insights about your current season of life to guide our interactions." },
+      { label: "Reflection", text: "A secure log of your check-ins and conversations so you can review your progress." },
+    ],
   },
   {
-    title: "What Florence never keeps",
-    body: "No weight, no calories, no food logs, no measurements. Florence is about how you feel, not numbers about your body.",
+    title: "Data we explicitly do not collect",
+    body: "Florence is metric-free. We never track weight, calories, food, or physical measurements. We prioritize your emotional well-being over physical numbers.",
   },
   {
-    title: "What Florence will never do",
-    body: "We do not sell your data. We do not share it for advertising. We do not hand it to anyone or use it for anything beyond Florence being here for you.",
+    title: "Our privacy guarantees",
+    items: [
+      { text: "We do not monetize, sell, or trade your data." },
+      { text: "We do not share information with advertisers or external parties." },
+    ],
   },
   {
-    title: "What is always yours",
-    body: "You can see everything Florence holds, and take a copy whenever you want. You can delete your account at any time. When you do, your information is removed right away and fully cleared from our systems shortly after.",
+    title: "Your data rights",
+    items: [
+      { label: "Data Portability", text: "Access and export a full copy of your retained information at any time." },
+      { label: "Account Deletion", text: "Deleting your account triggers immediate removal of your data, followed by a permanent, complete purge from our storage infrastructure shortly after." },
+    ],
   },
   {
-    title: "How it is kept",
-    body: "Your data is encrypted and protected, and only you can ever see it.",
+    title: "Security infrastructure",
+    body: "All data is encrypted both in transit and at rest, ensuring absolute confidentiality. Your records are strictly restricted to your private access.",
   },
 ];
 
@@ -34,8 +50,9 @@ export default function ConsentPage() {
           Before we begin
         </h1>
         <p className="mb-6 max-w-[34ch] text-[14px] font-light leading-[1.6] text-ink-soft">
-          Florence is a private place. Before you share anything, here is exactly
-          how your trust is held.
+          Before you get started, we want you to know how your privacy is
+          protected. Florence is a confidential environment built on absolute
+          trust.
         </p>
 
         <div className="flex flex-1 flex-col gap-[18px] overflow-y-auto pr-1.5">
@@ -45,16 +62,37 @@ export default function ConsentPage() {
                 <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-clay-soft" />
                 {block.title}
               </div>
-              <p className="pl-[15px] text-[13.5px] font-light leading-[1.62] text-ink-soft">
-                {block.body}
-              </p>
+
+              {block.body && (
+                <p className="pl-[15px] text-[13.5px] font-light leading-[1.62] text-ink-soft">
+                  {block.body}
+                </p>
+              )}
+
+              {block.items && (
+                <ul className="flex flex-col gap-[6px] pl-[15px]">
+                  {block.items.map((item, i) => (
+                    <li
+                      key={i}
+                      className="text-[13.5px] font-light leading-[1.62] text-ink-soft"
+                    >
+                      {item.label && (
+                        <strong className="font-semibold text-ink">
+                          {item.label}:
+                        </strong>
+                      )}{" "}
+                      {item.text}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
           <a
             href="#"
             className="pl-[15px] text-[13px] font-semibold text-clay no-underline"
           >
-            Read the full privacy policy &rsaquo;
+            Review our full Privacy Policy &rsaquo;
           </a>
         </div>
       </div>
