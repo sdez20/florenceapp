@@ -112,7 +112,7 @@ export default function OnboardingPage() {
                 Where you are
               </p>
               <h1 className="mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink">
-                So Florence speaks your world.
+                Florence speaks your world.
               </h1>
               <div className="mb-[18px]">
                 <label className={fieldLabel}>Region</label>
