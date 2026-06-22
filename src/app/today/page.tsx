@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
+import { getStoredName, firstNameOf } from "@/lib/user";
 
 function greetingFor(date: Date) {
   const hour = date.getHours();
@@ -44,10 +45,14 @@ export default function TodayPage() {
   const [pct, setPct] = useState(initialPct);
   const [words, setWords] = useState(initialWords);
 
-  // Computed after mount from the user's local time, so there is no
-  // server/client hydration mismatch.
+  // Computed after mount from the user's local time and stored name, so there
+  // is no server/client hydration mismatch.
   const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => setNow(new Date()), []);
+  const [firstName, setFirstName] = useState("");
+  useEffect(() => {
+    setNow(new Date());
+    setFirstName(firstNameOf(getStoredName()));
+  }, []);
   const greeting = now ? greetingFor(now) : "Hello";
   const dateLabel = now ? formatDate(now) : " ";
 
@@ -68,9 +73,16 @@ export default function TodayPage() {
           Cycling
         </div>
         <div className="mt-[22px] font-serif text-[32px] font-medium leading-[1.05] text-ink">
-          {greeting},
-          <br />
-          <em className="italic text-clay">Sarah</em>.
+          {greeting}
+          {firstName ? (
+            <>
+              ,
+              <br />
+              <em className="italic text-clay">{firstName}</em>.
+            </>
+          ) : (
+            "."
+          )}
         </div>
         {!done && (
           <div className="mt-[14px] text-[14.5px] font-light text-ink-soft">

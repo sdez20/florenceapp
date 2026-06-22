@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
+import StoredName from "@/components/StoredName";
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -20,7 +21,7 @@ function Row({
   danger,
 }: {
   k: string;
-  sub?: string;
+  sub?: ReactNode;
   cur?: string;
   href?: string;
   danger?: boolean;
@@ -95,7 +96,7 @@ export default function SettingsPage() {
 
         <SectionLabel>You</SectionLabel>
         <div className="flex flex-col gap-[10px]">
-          <Row k="Name" sub="Sarah" />
+          <Row k="Name" sub={<StoredName fallback="Your name" />} />
           <Row k="Birthday" sub="14 June" />
           <Row k="Heritage" sub="Trinidadian" />
           <Row k="Language" sub="English" />

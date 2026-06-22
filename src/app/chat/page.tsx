@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getStoredName, firstNameOf } from "@/lib/user";
 
 const focusOptions = [
   { label: "Relational intelligence", d: "Connection, conflict, the people around you" },
@@ -30,6 +31,12 @@ export default function ChatPage() {
   const [focus, setFocus] = useState(focusOptions[0].label);
   const [thread, setThread] = useState(initialThread);
   const [draft, setDraft] = useState("");
+
+  const [firstName, setFirstName] = useState("");
+  useEffect(() => setFirstName(firstNameOf(getStoredName())), []);
+  const userLabel = firstName || "You";
+  const lead = (text: string) =>
+    firstName ? text.replace("Sarah", firstName) : text.replace(/,?\s*Sarah/, "");
 
   const send = () => {
     const text = draft.trim();
@@ -122,14 +129,14 @@ export default function ChatPage() {
                   m.who === "u" ? "text-olive" : "text-clay"
                 }`}
               >
-                {m.who === "u" ? "Sarah" : "Florence"}
+                {m.who === "u" ? userLabel : "Florence"}
               </div>
               <div
                 className={`font-serif font-medium leading-[1.5] ${
                   m.who === "u" ? "text-[16px] text-ink-soft" : "text-[18px] text-ink"
                 }`}
               >
-                {m.lead && <span className="text-ink">{m.lead} </span>}
+                {m.lead && <span className="text-ink">{lead(m.lead)} </span>}
                 {m.text}
               </div>
             </div>
