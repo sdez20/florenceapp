@@ -111,9 +111,6 @@ export default function OnboardingPage() {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-clay">
                 Where you are
               </p>
-              <h1 className="mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink">
-                Florence speaks your world.
-              </h1>
               <div className="mb-[18px]">
                 <label className={fieldLabel}>Region</label>
                 <select className={fieldInput} defaultValue="Trinidad & the Caribbean">
@@ -142,9 +139,6 @@ export default function OnboardingPage() {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-clay">
                 A little about you
               </p>
-              <h1 className="mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink">
-                The things that make you, you.
-              </h1>
               <div className="mb-[18px]">
                 <label className={fieldLabel}>Your culture or heritage</label>
                 <input
@@ -167,11 +161,8 @@ export default function OnboardingPage() {
           {step === 3 && (
             <>
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-clay">
-                One last thing
-              </p>
-              <h1 className="mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink">
                 How did you find Florence?
-              </h1>
+              </p>
               <div className="flex flex-col gap-[9px]">
                 {sources.map((s, i) => (
                   <Option
