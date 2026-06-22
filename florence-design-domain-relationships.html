@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Domain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --rose:#97A06E;--ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 30px}
+
+  .back{font-size:22px;color:var(--ink-soft);font-weight:300;cursor:pointer;line-height:1;margin-bottom:28px}
+
+  .middle{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--clay);font-weight:600;margin-bottom:14px}
+  h1{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:var(--olive-deep);line-height:1.05;margin-bottom:22px}
+  .desc{font-size:15px;line-height:1.7;color:var(--ink-soft);font-weight:300;margin-bottom:34px}
+
+  .read{display:flex;align-items:center;gap:11px;padding:16px 18px;border:1px solid rgba(110,123,83,.16);border-radius:14px;cursor:pointer;margin-bottom:12px;transition:border-color .2s,background .2s}
+  .read:hover{border-color:var(--clay-soft);background:rgba(151,160,110,.14)}
+  .read .ri{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--clay-soft);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--clay)}
+  .read .rt{flex:1}
+  .read .rt .k{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--ink)}
+  .read .rt .s{font-size:12px;color:var(--ink-soft);font-weight:300;margin-top:1px}
+  .read .chev{color:var(--clay-soft);font-size:17px}
+
+  .talk{margin-top:auto;width:100%;padding:17px;border:1.5px solid var(--olive);border-radius:16px;
+    background:var(--olive-deep);color:var(--white);font-family:'Figtree',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:transform .3s ease, background .3s ease}
+  .talk:hover{background:var(--olive);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="field"></div>
+    <div class="content">
+      <div class="back">&#8249;</div>
+
+      <div class="middle">
+        <div class="eyebrow">Explore</div>
+        <h1>Relationships</h1>
+        <p class="desc">The people in your life, at home and at work, shape how you feel more than almost anything. Florence helps you understand your patterns, handle the hard conversations, and build stronger relationships.</p>
+
+      </div>
+
+      <button class="talk">Talk with Florence about this</button>
+    </div>
+  </div>
+</body>
+</html>

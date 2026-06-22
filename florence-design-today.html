@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --rose:#97A06E;--ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .field::after{content:"";position:absolute;inset:0;
+    background:transparent;
+    animation:breathe 13s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.9;transform:scale(1.05)}}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 16px;overflow-y:auto}
+
+  .date{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink-soft);font-weight:500}
+  .season{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--olive-deep);font-weight:500;margin-top:5px}
+  .season .dot{width:6px;height:6px;border-radius:50%;background:var(--olive);box-shadow:0 0 0 4px rgba(110,123,83,.15)}
+
+  .greet{font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1.05;color:var(--olive-deep);font-weight:500;margin-top:22px}
+  .greet em{font-style:italic;color:var(--clay)}
+  .ask{font-size:14.5px;color:var(--ink-soft);font-weight:300;margin-top:14px}
+
+  /* two states share the middle zone */
+  .stage{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative}
+  .state{transition:opacity .7s ease}
+  .state.hide{opacity:0;pointer-events:none;position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center}
+
+  /* STATE 1: sliders */
+  .sliders{display:flex;flex-direction:column;gap:30px}
+  .dim .head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}
+  .dim .lk{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink)}
+  .dim .lw{font-size:13px;color:var(--clay);font-weight:600}
+  .track{position:relative;height:4px;border-radius:2px;background:rgba(110,123,83,.16);cursor:pointer}
+  .fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px;transition:width .4s cubic-bezier(.22,1,.36,1)}
+  .knob{position:absolute;top:50%;width:15px;height:15px;border-radius:50%;background:var(--white);
+    box-shadow:0 2px 7px rgba(58,53,46,.22),0 0 0 1px rgba(92,107,67,.18);
+    transform:translate(-50%,-50%);transition:left .4s cubic-bezier(.22,1,.36,1)}
+  .done{margin-top:38px;width:100%;padding:16px;border:1.5px solid var(--clay-soft);border-radius:16px;
+    background:transparent;color:var(--clay);font-family:'Figtree',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s ease}
+  .done:hover{background:rgba(151,160,110,.14)}
+
+  /* STATE 2: dots reflection */
+  .dots{display:flex;flex-direction:column;gap:26px}
+  .item{display:flex;align-items:center;gap:18px}
+  .glow{position:relative;width:46px;height:46px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .glow .halo{position:absolute;inset:0;border-radius:50%;opacity:.5;animation:pulse 4s ease-in-out infinite}
+  .glow .core{width:16px;height:16px;border-radius:50%;position:relative}
+  @keyframes pulse{0%,100%{transform:scale(.8);opacity:.3}50%{transform:scale(1.2);opacity:.65}}
+  .it .k{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1}
+  .it .w{font-size:13px;color:var(--clay);font-weight:600;margin-top:3px}
+
+  .talk{margin-top:auto;width:100%;padding:17px;border:1.5px solid var(--olive);border-radius:16px;
+    background:var(--olive-deep);color:var(--white);font-family:'Figtree',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:transform .3s ease, background .3s ease;opacity:0;pointer-events:none}
+  .talk.show{opacity:1;pointer-events:auto;transition:opacity .7s ease .2s, transform .3s ease, background .3s ease}
+  .talk:hover{background:var(--olive);transform:translateY(-1px)}
+  @media (prefers-reduced-motion: reduce){.field::after{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="field"></div>
+    <div class="content">
+      <div class="date">Sunday, 14 June</div>
+      <div class="season"><span class="dot"></span> Cycling</div>
+      <div class="greet">Good morning,<br><em>Sarah</em>.</div>
+      <div class="ask" id="ask">How are you feeling today?</div>
+
+      <div class="stage">
+        <!-- STATE 1: SLIDERS -->
+        <div class="state" id="s1">
+          <div class="sliders">
+            <div class="dim" data-i="0">
+              <div class="head"><span class="lk">Mental</span><span class="lw">clear</span></div>
+              <div class="track"><div class="fill" style="width:70%;background:#FAF8F2"></div><div class="knob" style="left:70%"></div></div>
+            </div>
+            <div class="dim" data-i="1">
+              <div class="head"><span class="lk">Emotional</span><span class="lw">tender</span></div>
+              <div class="track"><div class="fill" style="width:46%;background:#FAF8F2"></div><div class="knob" style="left:46%"></div></div>
+            </div>
+            <div class="dim" data-i="2">
+              <div class="head"><span class="lk">Nutrition</span><span class="lw">nourished</span></div>
+              <div class="track"><div class="fill" style="width:64%;background:#FAF8F2"></div><div class="knob" style="left:64%"></div></div>
+            </div>
+          </div>
+          <button class="done" id="doneBtn">Done</button>
+        </div>
+
+        <!-- STATE 2: DOTS -->
+        <div class="state hide" id="s2">
+          <div class="dots">
+            <div class="item">
+              <span class="glow"><span class="halo" style="background:transparent"></span><span class="core" style="background:#6E7B4C"></span></span>
+              <div class="it"><div class="k">Mental</div><div class="w" id="w0">clear</div></div>
+            </div>
+            <div class="item">
+              <span class="glow"><span class="halo" style="background:transparent;animation-delay:1.3s"></span><span class="core" style="background:#B0A06F"></span></span>
+              <div class="it"><div class="k">Emotional</div><div class="w" id="w1">tender</div></div>
+            </div>
+            <div class="item">
+              <span class="glow"><span class="halo" style="background:transparent;animation-delay:2.6s"></span><span class="core" style="background:#97A06E"></span></span>
+              <div class="it"><div class="k">Nutrition</div><div class="w" id="w2">nourished</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="talk" id="talk">Talk with Florence</button>
+    </div>
+  </div>
+
+<script>
+  const words=[
+    ['heavy','foggy','steady','clear','sharp'],
+    ['shut down','low','tender','open','light'],
+    ['depleted','running low','nourished','satisfied','strong']
+  ];
+  const current=['clear','tender','nourished'];
+  document.querySelectorAll('.dim').forEach(dim=>{
+    const i=+dim.dataset.i;
+    const track=dim.querySelector('.track'), fill=track.querySelector('.fill'), knob=track.querySelector('.knob');
+    const w=dim.querySelector('.lw');
+    const set=p=>{p=Math.max(4,Math.min(96,p));fill.style.width=p+'%';knob.style.left=p+'%';
+      const idx=Math.min(words[i].length-1,Math.floor(p/100*words[i].length));w.textContent=words[i][idx];current[i]=words[i][idx];};
+    const fromE=e=>{const r=track.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;set(x/r.width*100);};
+    let drag=false;
+    track.addEventListener('mousedown',e=>{drag=true;fromE(e)});
+    window.addEventListener('mousemove',e=>{if(drag)fromE(e)});
+    window.addEventListener('mouseup',()=>drag=false);
+    track.addEventListener('touchstart',fromE,{passive:true});
+    track.addEventListener('touchmove',fromE,{passive:true});
+  });
+
+  // transition: sliders fade to dots, talk button appears
+  document.getElementById('doneBtn').addEventListener('click',()=>{
+    for(let i=0;i<3;i++) document.getElementById('w'+i).textContent=current[i];
+    document.getElementById('s1').classList.add('hide');
+    document.getElementById('s2').classList.remove('hide');
+    document.getElementById('ask').style.display='none';
+    document.getElementById('talk').classList.add('show');
+  });
+</script>
+</body>
+</html>

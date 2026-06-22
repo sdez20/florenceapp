@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--white-soft:#F7F2EC;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;min-height:100vh;
+    padding:24px;gap:22px;flex-wrap:wrap;
+  }
+  .phone{
+    width:100%;max-width:360px;height:760px;
+    border-radius:42px;overflow:hidden;position:relative;background:var(--white);
+    box-shadow:0 30px 90px rgba(58,53,46,.28), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column;flex:0 0 auto;
+  }
+  .field{
+    position:absolute;inset:0;z-index:0;
+    background:#FAF8F2;
+  }
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 28px;overflow-y:auto}
+
+  /* progress dots */
+  .dots{display:flex;gap:7px;margin-bottom:0}
+  .dots i{width:24px;height:3px;border-radius:2px;background:rgba(110,123,83,.18)}
+  .dots i.on{background:var(--clay)}
+
+  /* centered middle zone */
+  .middle{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0}
+
+  .step{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);font-weight:600;margin-bottom:12px}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:32px;line-height:1.12;color:var(--olive-deep);margin-bottom:22px}
+  .ctx{font-size:13px;line-height:1.55;color:var(--ink-soft);font-weight:300;margin-bottom:26px;max-width:32ch}
+
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{
+    text-align:left;background:transparent;border:1.5px solid rgba(110,123,83,.2);
+    border-radius:14px;padding:14px 16px;cursor:pointer;
+    font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--ink);
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .opt .d{display:block;font-family:'Figtree',sans-serif;font-size:11.5px;color:var(--ink-soft);font-weight:300;margin-top:2px}
+  .opt:hover{border-color:var(--clay-soft)}
+  .opt.sel{border-color:var(--clay);background:var(--blush)}
+
+  .fieldgroup{margin-bottom:18px}
+  .fieldgroup label{display:block;font-size:12px;color:var(--ink-soft);font-weight:500;margin-bottom:7px;padding-left:2px}
+  .fieldgroup input, .fieldgroup select{
+    width:100%;background:transparent;border:1.5px solid rgba(110,123,83,.22);
+    border-radius:13px;padding:14px 16px;font-family:'Figtree',sans-serif;font-size:14.5px;color:var(--ink);
+  }
+  .fieldgroup input:focus, .fieldgroup select:focus{outline:none;border-color:var(--clay)}
+  .fieldgroup input::placeholder{color:var(--ink-soft);opacity:.55}
+
+  .next{
+    width:100%;padding:17px;border:1.5px solid var(--olive);border-radius:17px;
+    background:var(--olive-deep);color:var(--white);
+    font-family:'Figtree',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;cursor:pointer;margin-top:0;flex-shrink:0;transition:transform .3s ease, background .3s ease;
+  }
+  .next:hover{background:var(--olive);transform:translateY(-1px)}
+
+  .caption{position:absolute;top:-30px;left:0;font-family:'Figtree',sans-serif;font-size:12px;color:#9a8f80;font-weight:600;letter-spacing:.04em}
+  .wrap{position:relative}
+</style>
+</head>
+<body>
+
+  <!-- SCREEN 1: SEASON -->
+  <div class="wrap">
+    <div class="caption">1 · Season</div>
+    <div class="phone">
+      <div class="field"></div>
+      <div class="content">
+        <div class="dots"><i class="on"></i><i></i><i></i><i></i></div><div class="middle">
+        <div class="step">To begin</div>
+        <h1>Where is your body right now?</h1>
+        <div class="opts">
+          <button class="opt sel">Cycling<span class="d">Your body runs on a monthly rhythm, period or not</span></button>
+          <button class="opt">Trying to conceive<span class="d">Hoping for a pregnancy</span></button>
+          <button class="opt">Pregnant<span class="d">Carrying, in any trimester</span></button>
+          <button class="opt">Postpartum<span class="d">The months and year after birth</span></button>
+          <button class="opt">Perimenopause<span class="d">The change, beginning</span></button>
+          <button class="opt">Menopause &amp; after<span class="d">Through and beyond</span></button>
+        </div>
+        </div><button class="next">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: REGION + LANGUAGE -->
+  <div class="wrap">
+    <div class="caption">2 · Region &amp; language</div>
+    <div class="phone">
+      <div class="field"></div>
+      <div class="content">
+        <div class="dots"><i class="on"></i><i class="on"></i><i></i><i></i></div><div class="middle">
+        <div class="step">Where you are</div>
+        <h1>So Florence speaks your world.</h1>
+        <div class="fieldgroup">
+          <label>Region</label>
+          <select>
+            <option>Trinidad &amp; the Caribbean</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Europe</option>
+            <option>Canada</option>
+            <option>Elsewhere</option>
+          </select>
+        </div>
+        <div class="fieldgroup">
+          <label>Language</label>
+          <select>
+            <option>English</option>
+            <option>Español</option>
+            <option>Français</option>
+            <option>Português</option>
+          </select>
+        </div>
+        </div><button class="next">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: CULTURE + BIRTHDAY -->
+  <div class="wrap">
+    <div class="caption">3 · You</div>
+    <div class="phone">
+      <div class="field"></div>
+      <div class="content">
+        <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="middle">
+        <div class="step">A little about you</div>
+        <h1>The things that make you, you.</h1>
+        <div class="fieldgroup">
+          <label>Your culture or heritage</label>
+          <input type="text" placeholder="However you'd describe it">
+        </div>
+        <div class="fieldgroup">
+          <label>Your birthday</label>
+          <input type="text" placeholder="14 June 1979">
+        </div>
+        </div><button class="next">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: HOW SHE FOUND FLORENCE -->
+  <div class="wrap">
+    <div class="caption">4 · One last thing</div>
+    <div class="phone">
+      <div class="field"></div>
+      <div class="content">
+        <div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="middle">
+        <div class="step">One last thing</div>
+        <h1>How did you find Florence?</h1>
+        <div class="opts">
+          <button class="opt">A friend told me</button>
+          <button class="opt sel">Instagram</button>
+          <button class="opt">A podcast or article</button>
+          <button class="opt">My coach or practitioner</button>
+          <button class="opt">Searching for something like this</button>
+        </div>
+        </div><button class="next">Meet Florence</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.querySelectorAll('.opts').forEach(group=>{
+    group.querySelectorAll('.opt').forEach(o=>{
+      o.addEventListener('click',()=>{
+        group.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+        o.classList.add('sel');
+      });
+    });
+  });
+</script>
+</body>
+</html>

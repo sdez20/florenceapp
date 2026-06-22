@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Today's Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --rose:#97A06E;--ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 20px;overflow-y:auto}
+
+  .top{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .back{font-size:22px;color:var(--ink-soft);font-weight:300;cursor:pointer;line-height:1}
+  .ttl{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep)}
+  .date{font-size:12px;color:var(--ink-soft);font-weight:400;margin:2px 0 26px 36px}
+
+  .cat{margin-bottom:22px}
+  .cat-head{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+  .cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .cat-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink)}
+
+  .note{border:1px solid rgba(110,123,83,.15);border-radius:13px;padding:14px 15px;margin-bottom:8px}
+  .note p{font-size:13.5px;line-height:1.55;color:var(--ink);font-weight:300}
+  .note p strong{font-weight:600;color:var(--olive-deep)}
+
+  .add{font-size:12px;color:var(--clay);font-weight:600;letter-spacing:.04em;cursor:pointer;margin-top:2px;display:inline-block}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="field"></div>
+    <div class="content">
+      <div class="top"><span class="back">&#8249;</span><span class="ttl">Today's notes</span></div>
+      <div class="date">Sunday, 14 June</div>
+
+      <div class="cat">
+        <div class="cat-head"><span class="cat-dot" style="background:#97A06E"></span><span class="cat-name">Nutrition for today</span></div>
+        <div class="note"><p>Eat at regular times on your busy days. When you skip, your blood sugar drops, and the afternoon low in your mood and energy follows from there.</p></div>
+        <div class="note"><p>Warm, cooked food this week, stewed callaloo, dasheen, pumpkin, lentil soup. Your gut is more sensitive while you are bleeding, and cooked food breaks down easier, so the bloating eases.</p></div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head"><span class="cat-dot" style="background:#6E7B4C"></span><span class="cat-name">For mental clarity</span></div>
+        <div class="note"><p>Eggs, salmon, or beans with greens at lunch before back-to-back meetings. The protein holds your blood sugar steady, so your focus does not crash mid-afternoon.</p></div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head"><span class="cat-dot" style="background:#B0A06F"></span><span class="cat-name">To calm your nerves</span></div>
+        <div class="note"><p>Chamomile or tulsi tea in the evening. Both calm your nervous system, which is what lets your body shift out of the day and toward sleep.</p></div>
+        <div class="note"><p><strong>Breathing:</strong> four counts in, six counts out, before you walk into the room. A longer exhale lowers your heart rate and tells your body you are not in danger.</p></div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head"><span class="cat-dot" style="background:#1F2A22"></span><span class="cat-name">For your sleep</span></div>
+        <div class="note"><p>Screens down an hour before bed. The light holds off the melatonin your body needs to fall asleep, and your sleep has been the thread under a lot of how you have felt.</p></div>
+      </div>
+
+      <span class="add">+ Add a note of your own</span>
+    </div>
+  </div>
+</body>
+</html>

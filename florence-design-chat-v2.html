@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;
+    --white-soft:#F7F2EC;
+    --blush:#EFEADC;
+    --blush-deep:#97A06E;
+    --clay:#B0A06F;
+    --clay-soft:#C9BE9A;
+    --olive:#6E7B4C;
+    --olive-deep:#1F2A22;
+    --ink:#1F2A22;
+    --ink-soft:#7A7A6C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;
+  }
+  .phone{
+    width:100%;max-width:390px;height:min(844px,92vh);
+    border-radius:44px;overflow:hidden;position:relative;background:var(--white);
+    box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column;
+  }
+
+  .bar{
+    position:relative;z-index:3;
+    padding:54px 26px 16px;
+    background:var(--white);
+    display:flex;align-items:center;gap:14px;
+  }
+  .back{font-size:22px;color:var(--ink-soft);line-height:1;cursor:pointer;font-weight:300}
+  .who{flex:1}
+  .who .name{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:25px;
+    color:var(--olive-deep);line-height:1;
+  }
+  .who .ctx{
+    font-size:11px;color:var(--clay);font-weight:500;letter-spacing:.02em;margin-top:5px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .who .ctx .dot{width:5px;height:5px;border-radius:50%;background:var(--olive);}
+
+  /* focus selector */
+  .focus{
+    position:relative;z-index:3;padding:0 22px 14px;background:var(--white);
+  }
+  .focus-btn{
+    width:100%;display:flex;align-items:center;justify-content:space-between;
+    background:transparent;border:1.5px solid var(--blush);border-radius:16px;
+    padding:13px 18px;cursor:pointer;font-family:'Figtree',sans-serif;
+  }
+  .focus-btn .lab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:600}
+  .focus-btn .val{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--olive-deep);margin-top:3px}
+  .focus-btn .left{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+  .focus-btn .chev{font-size:14px;color:var(--clay);transition:transform .3s ease}
+  .focus.open .chev{transform:rotate(180deg)}
+
+  .menu{
+    max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1);
+    margin-top:8px;
+  }
+  .focus.open .menu{max-height:560px}
+  .menu-inner{
+    background:var(--white);border:1px solid rgba(110,123,83,.14);
+    border-radius:16px;padding:6px;
+  }
+  .opt{
+    display:block;width:100%;text-align:left;background:transparent;border:none;
+    padding:13px 14px;border-radius:11px;cursor:pointer;
+    font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--ink);
+    transition:background .2s ease;
+  }
+  .opt:hover,.opt.sel{background:var(--blush)}
+  .opt .d{display:block;font-family:'Figtree',sans-serif;font-size:11.5px;color:var(--ink-soft);font-weight:300;margin-top:2px}
+
+  .thread{
+    flex:1;overflow-y:auto;padding:10px 22px 18px;
+    display:flex;flex-direction:column;gap:18px;background:var(--white);
+  }
+  .day{text-align:center;font-size:11px;color:var(--ink-soft);letter-spacing:.16em;text-transform:uppercase;margin:4px 0 2px;opacity:.7}
+
+  .msg{max-width:86%;line-height:1.5}
+  .msg.f{align-self:flex-start}
+  .msg.u{align-self:flex-end;text-align:right}
+  .nm{
+    font-family:'Figtree',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .msg.f .nm{color:var(--clay)}
+  .msg.u .nm{color:var(--olive)}
+  .bubble-f{
+    color:var(--ink);font-family:'Cormorant Garamond',serif;
+    font-size:18px;font-weight:500;line-height:1.5;
+  }
+  .bubble-f .lead{color:var(--olive-deep)}
+  .bubble-u{
+    color:var(--ink-soft);font-family:'Cormorant Garamond',serif;
+    font-size:16px;font-weight:500;line-height:1.5;
+  }
+
+  .composer{
+    position:relative;z-index:2;padding:14px 18px 26px;background:var(--white);
+    display:flex;align-items:flex-end;gap:10px;
+  }
+  .input{
+    flex:1;background:var(--white-soft);border:1px solid rgba(110,123,83,.16);
+    border-radius:22px;padding:14px 18px;font-family:'Figtree',sans-serif;
+    font-size:14.5px;color:var(--ink);min-height:50px;
+  }
+  .input:empty::before{content:'Tell Florence anything';color:var(--ink-soft);opacity:.7}
+  .send{
+    width:50px;height:50px;border-radius:50%;border:none;flex-shrink:0;
+    background:var(--clay);color:var(--white);font-size:20px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:transform .3s ease, background .3s ease;
+  }
+  .send:hover{background:var(--clay-soft);transform:translateY(-1px)}
+  .send:focus-visible{outline:2px solid var(--olive);outline-offset:3px}
+
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="bar">
+      <div class="back">&#8249;</div>
+      <div class="who">
+        <div class="name">Florence</div>
+      </div>
+    </div>
+
+    <div class="focus" id="focus">
+      <button class="focus-btn" id="focusBtn" aria-expanded="false">
+        <span class="left">
+          <span class="lab">Today I want to focus on</span>
+          <span class="val" id="focusVal">Relational intelligence</span>
+        </span>
+        <span class="chev">&#9662;</span>
+      </button>
+      <div class="menu">
+        <div class="menu-inner" id="menuInner">
+          <button class="opt">Relational intelligence<span class="d">Connection, conflict, the people around you</span></button>
+          <button class="opt">Holistic nutrition<span class="d">Nourishment as care, not rules</span></button>
+          <button class="opt">Skin health<span class="d">What your skin reflects, inside and out</span></button>
+          <button class="opt">Intimacy &amp; desire<span class="d">Closeness, sexuality, your body's seasons</span></button>
+          <button class="opt">Steadying the body<span class="d">Stress, sleep, the nervous system</span></button>
+          <button class="opt">Boundaries<span class="d">Saying no, holding your own ground</span></button>
+          <button class="opt">This season of life<span class="d">Where your body and life are right now</span></button>
+          <button class="opt">Just talk<span class="d">No focus. Whatever is here today</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread">
+      <div class="day">Today</div>
+
+      <div class="msg f"><div class="nm">Florence</div><div class="bubble-f"><span class="lead">Good morning, Sarah.</span> You said your body feels tender today. Tell me what's on your mind.</div></div>
+
+      <div class="msg u"><div class="nm">Sarah</div><div class="bubble-u">I have a huge week. Three board meetings and my mother's appointment. I snapped at my husband this morning over nothing.</div></div>
+
+      <div class="msg f"><div class="nm">Florence</div><div class="bubble-f">The snapping makes sense. You're carrying a lot, and it came out at the safest person in the room. That's usually how it works.</div></div>
+
+      <div class="msg f"><div class="nm">Florence</div><div class="bubble-f">Go back to him when there's a quiet minute. You don't need a long apology. Just tell him it wasn't about him. He'll know.</div></div>
+
+      <div class="msg u"><div class="nm">Sarah</div><div class="bubble-u">And my mother's appointment is Thursday. I'm dreading it.</div></div>
+
+      <div class="msg f"><div class="nm">Florence</div><div class="bubble-f">Of course you are. Tell me what you're most afraid you'll hear.</div></div>
+    </div>
+
+    <div class="composer">
+      <div class="input" contenteditable="true" role="textbox" aria-label="Message Florence"></div>
+      <button class="send" aria-label="Send">&#8593;</button>
+    </div>
+  </div>
+
+<script>
+  const focus=document.getElementById('focus');
+  const btn=document.getElementById('focusBtn');
+  const val=document.getElementById('focusVal');
+  btn.addEventListener('click',()=>{
+    const open=focus.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open?'true':'false');
+  });
+  document.getElementById('menuInner').querySelectorAll('.opt').forEach(o=>{
+    o.addEventListener('click',()=>{
+      document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+      o.classList.add('sel');
+      val.textContent=o.childNodes[0].textContent.trim();
+      focus.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+</script>
+</body>
+</html>

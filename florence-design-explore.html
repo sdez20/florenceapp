@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Explore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--blush:#EFEADC;--clay:#B0A06F;--clay-soft:#C9BE9A;
+    --olive:#6E7B4C;--olive-deep:#1F2A22;--ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 16px;overflow-y:auto}
+  .cards{flex:1;display:flex;flex-direction:column;justify-content:center;padding:14px 0}
+
+  .top{display:flex;align-items:center;gap:13px;margin-bottom:6px}
+  .back{font-size:22px;color:var(--ink-soft);font-weight:300;cursor:pointer;line-height:1}
+  .h{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep)}
+  .sub{font-size:13px;color:var(--ink-soft);font-weight:300;margin:0 0 22px 35px}
+
+  .ecard{border-radius:18px;padding:18px 20px;margin-bottom:11px;cursor:pointer;border:1px solid rgba(110,123,83,.15);
+    transition:transform .25s ease, border-color .2s ease}
+  .ecard:hover{transform:translateY(-2px);border-color:var(--clay-soft)}
+  .ecard.lead{background:var(--blush);border:none;position:relative;overflow:hidden}
+  .ecard.lead::before{content:"";position:absolute;inset:0;background:transparent, transparent 60%)}
+  .et{position:relative;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--olive-deep)}
+  .ed{position:relative;font-size:12.5px;color:var(--ink-soft);font-weight:300;margin-top:3px;line-height:1.5}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="field"></div>
+    <div class="content">
+      <div class="top"><span class="back">&#8249;</span><span class="h">Explore</span></div>
+      <div class="cards">
+
+      <div class="ecard"><div class="et">Gut health</div><div class="ed">The foundation so much else rests on</div></div>
+      <div class="ecard"><div class="et">Hormone health</div><div class="ed">Through every stage of your life</div></div>
+      <div class="ecard"><div class="et">Skin health</div><div class="ed">What your skin reflects, inside and out</div></div>
+      <div class="ecard"><div class="et">Holistic nutrition</div><div class="ed">Nourishment as care, for your season</div></div>
+      <div class="ecard"><div class="et">Mental &amp; emotional</div><div class="ed">The inner weather you carry</div></div>
+      <div class="ecard"><div class="et">Intimacy &amp; sexuality</div><div class="ed">Desire and closeness across the lifespan</div></div>
+      <div class="ecard"><div class="et">Relationships</div><div class="ed">The people, and how you meet them</div></div>
+      <div class="ecard"><div class="et">Culture &amp; lifestyle</div><div class="ed">Where you come from, how you live</div></div>
+      <div class="ecard"><div class="et">This season of life</div><div class="ed">Where your body and life are now</div></div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Your Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FAF8F2;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --rose:#97A06E;--ink:#1F2A22;--ink-soft:#7A7A6C;
+  }
+  *{margin:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:58px 30px 16px;overflow-y:auto}
+
+  .top{margin-bottom:28px}
+  .ttl{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep);line-height:1.1}
+  .sub{font-size:13px;color:var(--ink-soft);font-weight:300;margin-top:6px}
+
+  /* chapter */
+  .chapter{margin-bottom:34px}
+  .ch-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+  .ch-season{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--clay)}
+  .ch-when{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+  .ch-line{height:1px;background:rgba(110,123,83,.14);margin-bottom:16px}
+
+  .para{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;color:var(--ink);font-weight:500;margin-bottom:14px}
+  .para em{font-style:italic;color:var(--olive-deep)}
+
+  .threads{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .thread{font-family:'Figtree',sans-serif;font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid rgba(110,123,83,.2);color:var(--ink-soft)}
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="field"></div>
+    <div class="content">
+      <div class="top">
+        <div class="ttl">Your story</div>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">This spring</span><span class="ch-when">March – now</span></div>
+        <div class="ch-line"></div>
+        <p class="para">You came into this season tired in a way sleep wasn't fixing. Over the weeks, you started protecting your evenings, and your mind began to feel clearer. <em>You learned that your dread before big meetings was carrying an old story, and naming it took some of its weight.</em></p>
+        <p class="para">Your eating steadied once you stopped skipping meals on the hard days. Your energy followed, and so did your mood. The bloating that worried you in March eased as your gut settled.</p>
+        <div class="threads"><span class="thread">Steadier sleep</span><span class="thread">Calmer mind</span><span class="thread">Nourishment found its rhythm</span></div>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">Late winter</span><span class="ch-when">January – February</span></div>
+        <div class="ch-line"></div>
+        <p class="para">A heavier stretch. You were carrying a lot at work and feeling things closer to the surface than usual. <em>You were harder on yourself than you needed to be.</em></p>
+        <p class="para">Your appetite was uneven through these weeks, and you noticed how much your energy depended on whether you'd eaten. You started paying attention to that thread, gently.</p>
+        <div class="threads"><span class="thread">A demanding season</span><span class="thread">Tender emotionally</span><span class="thread">Noticing your patterns</span></div>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">Where you began</span><span class="ch-when">December</span></div>
+        <div class="ch-line"></div>
+        <p class="para">You found Florence at the end of a long year, looking for somewhere to put it all down. You weren't sure what you needed yet. <em>You started by simply showing up.</em></p>
+        <div class="threads"><span class="thread">The beginning</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
