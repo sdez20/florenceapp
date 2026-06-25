@@ -1,6 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { selectKnowledge } from "@/lib/florence-knowledge";
 
+// Reads knowledge files from disk, so it must run on the Node.js runtime
+// (not edge) on Vercel.
+export const runtime = "nodejs";
+
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 export async function POST(req: Request) {
