@@ -27,7 +27,7 @@ export default function SignupPage() {
         <div className="flex flex-1 flex-col justify-center py-[18px]">
           <p className={`${eyebrow} mb-[14px] tracking-[0.3em]`}>Florence</p>
           <h1 className="mb-11 font-serif text-[38px] font-medium leading-[1.08] text-ink">
-            Create your space.
+            Let&apos;s make your space.
           </h1>
 
           <div className="flex flex-col gap-5">
@@ -36,7 +36,7 @@ export default function SignupPage() {
                 htmlFor="name"
                 className="mb-2 block pl-0.5 text-[12px] font-medium tracking-[0.04em] text-ink-soft"
               >
-                First and last name
+                What may Florence call you?
               </label>
               <input
                 id="name"
