@@ -84,7 +84,7 @@ export default function OnboardingPage() {
       birthday,
       source: sources[source].label,
     });
-    router.push("/howto");
+    router.push("/today");
   };
 
   return (

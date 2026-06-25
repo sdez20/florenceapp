@@ -114,9 +114,18 @@ export default function TodayPage() {
             <div className="flex flex-col gap-[26px]">
               {dims.map((dim, i) => (
                 <div key={dim.label} className="flex items-center gap-[18px]">
-                  <span className="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center">
+                  <span className="relative flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center">
+                    {/* constantly pulsing glow */}
                     <span
-                      className="h-4 w-4 rounded-full"
+                      className="absolute inset-0 rounded-full blur-[5px]"
+                      style={{
+                        background: dim.core,
+                        animation: "floGlow 4s ease-in-out infinite",
+                        animationDelay: `${i * 1.3}s`,
+                      }}
+                    />
+                    <span
+                      className="relative h-4 w-4 rounded-full"
                       style={{ background: dim.core }}
                     />
                   </span>

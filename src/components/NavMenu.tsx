@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/today", label: "Daily check-in" },
+  { href: "/today", label: "Today's check-in" },
   { href: "/explore", label: "Explore" },
-  { href: "/notes", label: "Today's notes" },
+  { href: "/notes", label: "Saved space" },
   { href: "/story", label: "Your story" },
   { href: "/settings", label: "Settings" },
 ];
@@ -27,11 +27,11 @@ export default function NavMenu() {
         aria-label="Open menu"
         aria-expanded={open}
         onClick={() => setOpen(true)}
-        className="absolute right-[24px] top-[54px] z-20 flex h-[14px] w-[26px] flex-col justify-between"
+        className="absolute right-[22px] top-[52px] z-20 flex h-[18px] w-[28px] flex-col justify-between p-[1px]"
       >
-        <span className="h-[1.5px] w-full rounded-full bg-ink" />
-        <span className="h-[1.5px] w-full rounded-full bg-ink" />
-        <span className="h-[1.5px] w-full rounded-full bg-ink" />
+        <span className="h-[2px] w-full rounded-full bg-ink" />
+        <span className="h-[2px] w-full rounded-full bg-ink" />
+        <span className="h-[2px] w-full rounded-full bg-ink" />
       </button>
 
       {open && (
