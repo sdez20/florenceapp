@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
-/* Florence design tokens — sourced from the design mockups */
+/* Florence design tokens — sourced from the design mockups.
+   Screen backgrounds are a soft bright white (per request), keeping the
+   olive / clay / ink brand accents from the designs. */
 :root {
-  --paper: #faf8f2;
-  --paper-soft: #f7f2ec;
-  --blush: #efeadc;
+  --paper: #ffffff; /* the screen — soft bright white */
+  --paper-soft: #f6f6f4; /* faint neutral for inputs, etc. */
+  --blush: #f2f3f0; /* soft neutral card (was cream) */
   --sage: #97a06e;
   --clay: #b0a06f;
   --clay-soft: #c9be9a;
   --olive: #6e7b4c;
   --ink: #1f2a22;
   --ink-soft: #7a7a6c;
-  --sand: #e4e2d6;
+  --sand: #ededeb; /* desktop backdrop behind the phone frame */
 }
 
 @theme inline {

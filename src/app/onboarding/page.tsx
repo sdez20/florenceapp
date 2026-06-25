@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PhoneFrame from "@/components/PhoneFrame";
 import { cta } from "@/components/ui";
+import { saveProfile } from "@/lib/profile";
 
 const seasons = [
   { label: "Cycling", d: "Your body runs on a monthly rhythm, period or not" },
@@ -62,10 +63,26 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(0);
   const [season, setSeason] = useState(0);
   const [source, setSource] = useState(1);
+  const [region, setRegion] = useState("Trinidad & the Caribbean");
+  const [language, setLanguage] = useState("English");
+  const [culture, setCulture] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   const next = () => {
-    if (step < 3) setStep(step + 1);
-    else router.push("/whatsheholds");
+    if (step < 3) {
+      setStep(step + 1);
+      return;
+    }
+    // Save her real answers so the app shows her own data (DB comes next).
+    saveProfile({
+      season: seasons[season].label,
+      region,
+      language,
+      culture,
+      birthday,
+      source: sources[source].label,
+    });
+    router.push("/whatsheholds");
   };
 
   return (
@@ -113,7 +130,11 @@ export default function OnboardingPage() {
               </p>
               <div className="mb-[18px]">
                 <label className={fieldLabel}>Region</label>
-                <select className={fieldInput} defaultValue="Trinidad & the Caribbean">
+                <select
+                  className={fieldInput}
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                >
                   <option>Trinidad &amp; the Caribbean</option>
                   <option>United States</option>
                   <option>United Kingdom</option>
@@ -124,7 +145,11 @@ export default function OnboardingPage() {
               </div>
               <div>
                 <label className={fieldLabel}>Language</label>
-                <select className={fieldInput} defaultValue="English">
+                <select
+                  className={fieldInput}
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
                   <option>English</option>
                   <option>Español</option>
                   <option>Français</option>
@@ -145,6 +170,8 @@ export default function OnboardingPage() {
                   type="text"
                   placeholder="However you'd describe it"
                   className={fieldInput}
+                  value={culture}
+                  onChange={(e) => setCulture(e.target.value)}
                 />
               </div>
               <div>
@@ -153,6 +180,8 @@ export default function OnboardingPage() {
                   type="text"
                   placeholder="14 June 1979"
                   className={fieldInput}
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
                 />
               </div>
             </>
