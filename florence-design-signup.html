@@ -3,22 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Florence — Create your account</title>
+<title>Florence — Settings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --white:#FAF8F2;
-    --white-soft:#F7F2EC;
-    --blush:#EFEADC;
-    --blush-deep:#97A06E;
-    --clay:#B0A06F;
-    --clay-soft:#C9BE9A;
-    --olive:#6E7B4C;
-    --olive-deep:#1F2A22;
-    --ink:#1F2A22;
-    --ink-soft:#7A7A6C;
+    --white:#FAF8F2;--white-soft:#F7F2EC;--blush:#EFEADC;--blush-deep:#97A06E;
+    --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
+    --ink:#1F2A22;--ink-soft:#7A7A6C;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%}
@@ -33,86 +26,70 @@
     box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
     display:flex;flex-direction:column;
   }
-  .field{
-    position:absolute;inset:0;z-index:0;
-    background:#FAF8F2;
-  }
+  .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 16px;overflow-y:auto}
 
-  .content{
-    position:relative;z-index:1;flex:1;display:flex;flex-direction:column;
-    padding:64px 32px 32px;
-  }
-  .middle{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 0}
-  .back{font-size:22px;color:var(--ink-soft);font-weight:300;cursor:pointer;margin-bottom:30px;line-height:1}
+  .top{display:flex;align-items:center;gap:13px;margin-bottom:28px}
+  .back{font-size:23px;color:var(--ink-soft);font-weight:300;cursor:pointer;line-height:1}
+  .ttl{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep)}
 
-  .eyebrow{
-    font-size:11px;letter-spacing:.3em;text-transform:uppercase;
-    color:var(--clay);font-weight:600;margin-bottom:14px;
-  }
-  h1{
-    font-family:'Cormorant Garamond',serif;font-weight:500;font-size:38px;
-    line-height:1.08;color:var(--olive-deep);margin-bottom:44px;
-  }
+  .seclab{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);font-weight:600;margin:24px 0 6px}
+  .seclab:first-of-type{margin-top:0}
 
-  .form{display:flex;flex-direction:column;gap:20px}
-  .fieldgroup label{
-    display:block;font-size:12px;letter-spacing:.04em;color:var(--ink-soft);
-    font-weight:500;margin-bottom:8px;padding-left:2px;
-  }
-  .fieldgroup input{
-    width:100%;background:transparent;border:1.5px solid rgba(110,123,83,.22);
-    border-radius:14px;padding:16px 18px;
-    font-family:'Figtree',sans-serif;font-size:15px;color:var(--ink);
-    transition:border-color .25s ease;
-  }
-  .fieldgroup input::placeholder{color:var(--ink-soft);opacity:.55}
-  .fieldgroup input:focus{outline:none;border-color:var(--clay)}
+  .group{display:flex;flex-direction:column;gap:10px}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:16px;background:transparent;cursor:pointer;transition:border-color .2s ease, background .2s ease;border:1px solid rgba(110,123,83,.16);border-radius:14px}
+  .row:hover{border-color:var(--clay-soft);background:rgba(151,160,110,.14)}
+  .row .l{display:flex;flex-direction:column;min-width:0}
+  .row .l .k{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.15}
+  .row .l .sub{font-size:12px;color:var(--ink-soft);font-weight:300;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .v{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:14px}
+  .row .v .cur{font-size:13px;color:var(--clay);font-weight:500;text-align:right}
+  .row .v .chev{color:var(--clay-soft);font-size:18px}
 
-  .create{
-    width:100%;padding:18px;border:1.5px solid var(--olive);border-radius:18px;
-    background:var(--olive-deep);color:var(--white);
-    font-family:'Figtree',sans-serif;font-size:13px;font-weight:600;letter-spacing:.18em;
-    text-transform:uppercase;cursor:pointer;transition:transform .3s ease, background .3s ease;
-    margin-top:auto;
-  }
-  .create:hover{background:var(--olive);transform:translateY(-1px)}
-  .create:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+  .danger .k{color:var(--clay)}
 
-  .signin{text-align:center;font-size:13.5px;color:var(--ink-soft);font-weight:400;margin-top:20px}
-  .signin a{color:var(--clay);font-weight:600;text-decoration:none}
-
-  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+  .footnote{margin-top:24px;font-size:12px;color:var(--ink-soft);font-weight:300;line-height:1.55;text-align:center}
 </style>
 </head>
 <body>
   <div class="phone">
     <div class="field"></div>
     <div class="content">
-      <div class="back">&#8249;</div>
+      <div class="top"><span class="back">&#8249;</span><span class="ttl">Settings</span></div>
 
-      <div class="middle">
-      <div class="eyebrow">Florence</div>
-      <h1>Let's make your space.</h1>
-
-      <div class="form">
-        <div class="fieldgroup">
-          <label for="name">What may Florence call you?</label>
-          <input id="name" type="text" placeholder="Your name">
-        </div>
-        <div class="fieldgroup">
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com">
-        </div>
-        <div class="fieldgroup">
-          <label for="pass">Password</label>
-          <input id="pass" type="password" placeholder="Create a password">
-        </div>
-      </div>
+      <div class="seclab">Your journey</div>
+      <div class="group">
+        <div class="row"><div class="l"><span class="k">See how far you've come</span><span class="sub">Your days, weeks, and months</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
       </div>
 
-      <button class="create">Create my account</button>
-      <div class="signin">Already with Florence? <a href="#">Sign in</a></div>
+      <div class="seclab">Where you are</div>
+      <div class="group">
+        <div class="row"><div class="l"><span class="k">Season</span><span class="sub">Cycling</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Life stage</span><span class="sub">Command years</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Region</span><span class="sub">Trinidad &amp; the Caribbean</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
+      </div>
+
+      <div class="seclab">How you live</div>
+      <div class="group">
+        <div class="row"><div class="l"><span class="k">Lifestyle</span><span class="sub">Pace, work, rest, movement</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Nutrition</span><span class="sub">Your food preferences &amp; traditions</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      </div>
+
+      <div class="seclab">You</div>
+      <div class="group">
+        <div class="row"><div class="l"><span class="k">Name</span><span class="sub">Sarah</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Birthday</span><span class="sub">14 June</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Heritage</span><span class="sub">Trinidadian</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+        <div class="row"><div class="l"><span class="k">Language</span><span class="sub">English</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      </div>
+
+      <div class="seclab">Your account</div>
+      <div class="group">
+        <div class="row"><div class="l"><span class="k">Privacy &amp; data</span><span class="sub">See, export, or delete your data</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+        <div class="row danger"><div class="l"><span class="k">Sign out</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      </div>
+
+      <div class="footnote">Update anything whenever you need.<br>Florence moves with you.</div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

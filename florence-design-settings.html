@@ -3,93 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Florence — Settings</title>
+<title>Florence — Your Story</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --white:#FAF8F2;--white-soft:#F7F2EC;--blush:#EFEADC;--blush-deep:#97A06E;
+    --white:#FAF8F2;--blush:#EFEADC;--blush-deep:#97A06E;
     --clay:#B0A06F;--clay-soft:#C9BE9A;--olive:#6E7B4C;--olive-deep:#1F2A22;
-    --ink:#1F2A22;--ink-soft:#7A7A6C;
+    --rose:#97A06E;--ink:#1F2A22;--ink-soft:#7A7A6C;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
+  *{margin:0;box-sizing:border-box}
   html,body{height:100%}
-  body{
-    font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
-    -webkit-font-smoothing:antialiased;
-    display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;
-  }
-  .phone{
-    width:100%;max-width:390px;height:min(844px,92vh);
-    border-radius:44px;overflow:hidden;position:relative;background:var(--white);
-    box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
-    display:flex;flex-direction:column;
-  }
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);
+    -webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .phone{width:100%;max-width:390px;height:min(844px,92vh);border-radius:44px;overflow:hidden;position:relative;
+    background:var(--white);box-shadow:0 40px 120px rgba(58,53,46,.30), 0 0 0 1px rgba(92,107,67,.18);
+    display:flex;flex-direction:column}
   .field{position:absolute;inset:0;z-index:0;background:#FAF8F2;}
-  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:56px 30px 16px;overflow-y:auto}
+  .content{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;padding:58px 30px 16px;overflow-y:auto}
 
-  .top{display:flex;align-items:center;gap:13px;margin-bottom:28px}
-  .back{font-size:23px;color:var(--ink-soft);font-weight:300;cursor:pointer;line-height:1}
-  .ttl{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep)}
+  .top{margin-bottom:28px}
+  .ttl{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--olive-deep);line-height:1.1}
+  .sub{font-size:13px;color:var(--ink-soft);font-weight:300;margin-top:6px}
 
-  .seclab{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);font-weight:600;margin:24px 0 6px}
-  .seclab:first-of-type{margin-top:0}
+  /* chapter */
+  .chapter{margin-bottom:34px}
+  .ch-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+  .ch-season{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--clay)}
+  .ch-when{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+  .ch-line{height:1px;background:rgba(110,123,83,.14);margin-bottom:16px}
 
-  .group{display:flex;flex-direction:column;gap:10px}
-  .row{display:flex;justify-content:space-between;align-items:center;padding:16px;background:transparent;cursor:pointer;transition:border-color .2s ease, background .2s ease;border:1px solid rgba(110,123,83,.16);border-radius:14px}
-  .row:hover{border-color:var(--clay-soft);background:rgba(151,160,110,.14)}
-  .row .l{display:flex;flex-direction:column;min-width:0}
-  .row .l .k{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.15}
-  .row .l .sub{font-size:12px;color:var(--ink-soft);font-weight:300;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .row .v{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:14px}
-  .row .v .cur{font-size:13px;color:var(--clay);font-weight:500;text-align:right}
-  .row .v .chev{color:var(--clay-soft);font-size:18px}
+  .para{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;color:var(--ink);font-weight:500;margin-bottom:14px}
+  .para em{font-style:italic;color:var(--olive-deep)}
 
-  .danger .k{color:var(--clay)}
-
-  .footnote{margin-top:24px;font-size:12px;color:var(--ink-soft);font-weight:300;line-height:1.55;text-align:center}
+  .threads{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .thread{font-family:'Figtree',sans-serif;font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid rgba(110,123,83,.2);color:var(--ink-soft)}
 </style>
 </head>
 <body>
   <div class="phone">
     <div class="field"></div>
     <div class="content">
-      <div class="top"><span class="back">&#8249;</span><span class="ttl">Settings</span></div>
-
-      <div class="seclab">Your journey</div>
-      <div class="group">
-        <div class="row"><div class="l"><span class="k">See how far you've come</span><span class="sub">Your days, weeks, and months</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      <div class="top">
+        <div class="ttl">Your story</div>
       </div>
 
-      <div class="seclab">Where you are</div>
-      <div class="group">
-        <div class="row"><div class="l"><span class="k">Season</span><span class="sub">Cycling</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Life stage</span><span class="sub">Command years</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Region</span><span class="sub">Trinidad &amp; the Caribbean</span></div><div class="v"><span class="cur">Change</span><span class="chev">&rsaquo;</span></div></div>
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">This spring</span><span class="ch-when">March – now</span></div>
+        <div class="ch-line"></div>
+        <p class="para">You came into this season tired in a way sleep wasn't fixing. Over the weeks, you started protecting your evenings, and your mind began to feel clearer. <em>You learned that your dread before big meetings was carrying an old story, and naming it took some of its weight.</em></p>
+        <p class="para">Your eating steadied once you stopped skipping meals on the hard days. Your energy followed, and so did your mood. The bloating that worried you in March eased as your gut settled.</p>
+        <div class="threads"><span class="thread">Steadier sleep</span><span class="thread">Calmer mind</span><span class="thread">Nourishment found its rhythm</span></div>
       </div>
 
-      <div class="seclab">How you live</div>
-      <div class="group">
-        <div class="row"><div class="l"><span class="k">Lifestyle</span><span class="sub">Pace, work, rest, movement</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Nutrition</span><span class="sub">Your food preferences &amp; traditions</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">Late winter</span><span class="ch-when">January – February</span></div>
+        <div class="ch-line"></div>
+        <p class="para">A heavier stretch. You were carrying a lot at work and feeling things closer to the surface than usual. <em>You were harder on yourself than you needed to be.</em></p>
+        <p class="para">Your appetite was uneven through these weeks, and you noticed how much your energy depended on whether you'd eaten. You started paying attention to that thread, gently.</p>
+        <div class="threads"><span class="thread">A demanding season</span><span class="thread">Tender emotionally</span><span class="thread">Noticing your patterns</span></div>
       </div>
 
-      <div class="seclab">You</div>
-      <div class="group">
-        <div class="row"><div class="l"><span class="k">Name</span><span class="sub">Sarah</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Birthday</span><span class="sub">14 June</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Heritage</span><span class="sub">Trinidadian</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-        <div class="row"><div class="l"><span class="k">Language</span><span class="sub">English</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
+      <div class="chapter">
+        <div class="ch-head"><span class="ch-season">Where you began</span><span class="ch-when">December</span></div>
+        <div class="ch-line"></div>
+        <p class="para">You found Florence at the end of a long year, looking for somewhere to put it all down. You weren't sure what you needed yet. <em>You started by simply showing up.</em></p>
+        <div class="threads"><span class="thread">The beginning</span></div>
       </div>
-
-      <div class="seclab">Your account</div>
-      <div class="group">
-        <div class="row"><div class="l"><span class="k">Privacy &amp; data</span><span class="sub">See, export, or delete your data</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-        <div class="row danger"><div class="l"><span class="k">Sign out</span></div><div class="v"><span class="chev">&rsaquo;</span></div></div>
-      </div>
-
-      <div class="footnote">Update anything whenever you need.<br>Florence moves with you.</div>
     </div>
-  </body>
+  </div>
+</body>
 </html>
