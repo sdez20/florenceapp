@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getStoredName, firstNameOf } from "@/lib/user";
 
@@ -15,34 +15,57 @@ const focusOptions = [
   { label: "Just talk", d: "No focus. Whatever is here today" },
 ];
 
-type Message = { who: "f" | "u"; lead?: string; text: string };
-
-const initialThread: Message[] = [
-  { who: "f", lead: "Good morning, Sarah.", text: "You said your body feels tender today. Tell me what's on your mind." },
-  { who: "u", text: "I have a huge week. Three board meetings and my mother's appointment. I snapped at my husband this morning over nothing." },
-  { who: "f", text: "The snapping makes sense. You're carrying a lot, and it came out at the safest person in the room. That's usually how it works." },
-  { who: "f", text: "Go back to him when there's a quiet minute. You don't need a long apology. Just tell him it wasn't about him. He'll know." },
-  { who: "u", text: "And my mother's appointment is Thursday. I'm dreading it." },
-  { who: "f", text: "Of course you are. Tell me what you're most afraid you'll hear." },
-];
+type Message = { who: "f" | "u"; text: string };
 
 export default function ChatPage() {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState(focusOptions[0].label);
-  const [thread, setThread] = useState(initialThread);
+  const [thread, setThread] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
+  const [sending, setSending] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   useEffect(() => setFirstName(firstNameOf(getStoredName())), []);
-  const userLabel = firstName || "You";
-  const lead = (text: string) =>
-    firstName ? text.replace("Sarah", firstName) : text.replace(/,?\s*Sarah/, "");
 
-  const send = () => {
+  const threadEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    threadEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [thread, sending]);
+
+  const send = async () => {
     const text = draft.trim();
-    if (!text) return;
-    setThread((prev) => [...prev, { who: "u", text }]);
+    if (!text || sending) return;
+
+    const nextThread: Message[] = [...thread, { who: "u", text }];
+    setThread(nextThread);
     setDraft("");
+    setSending(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          focus,
+          messages: nextThread.map((m) => ({
+            role: m.who === "u" ? "user" : "assistant",
+            content: m.text,
+          })),
+        }),
+      });
+      const data = await res.json();
+      setThread((t) => [
+        ...t,
+        { who: "f", text: res.ok ? data.reply || "…" : data.error ?? "Something went wrong." },
+      ]);
+    } catch {
+      setThread((t) => [
+        ...t,
+        { who: "f", text: "I couldn't reach the server. Please try again." },
+      ]);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -117,6 +140,18 @@ export default function ChatPage() {
           <div className="my-1 text-center text-[11px] uppercase tracking-[0.16em] text-ink-soft/70">
             Today
           </div>
+
+          {/* opening line (display only — not part of the conversation sent to Florence) */}
+          <div className="max-w-[86%] self-start leading-[1.5]">
+            <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-clay">
+              Florence
+            </div>
+            <div className="font-serif text-[18px] font-medium leading-[1.5] text-ink">
+              {firstName ? `Hello, ${firstName}. ` : "Hello. "}I&apos;m here. What&apos;s
+              on your mind today?
+            </div>
+          </div>
+
           {thread.map((m, i) => (
             <div
               key={i}
@@ -129,18 +164,30 @@ export default function ChatPage() {
                   m.who === "u" ? "text-olive" : "text-clay"
                 }`}
               >
-                {m.who === "u" ? userLabel : "Florence"}
+                {m.who === "u" ? firstName || "You" : "Florence"}
               </div>
               <div
-                className={`font-serif font-medium leading-[1.5] ${
+                className={`whitespace-pre-wrap font-serif font-medium leading-[1.5] ${
                   m.who === "u" ? "text-[16px] text-ink-soft" : "text-[18px] text-ink"
                 }`}
               >
-                {m.lead && <span className="text-ink">{lead(m.lead)} </span>}
                 {m.text}
               </div>
             </div>
           ))}
+
+          {sending && (
+            <div className="max-w-[86%] self-start leading-[1.5]">
+              <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-clay">
+                Florence
+              </div>
+              <div className="font-serif text-[18px] font-medium italic text-ink-soft">
+                thinking&hellip;
+              </div>
+            </div>
+          )}
+
+          <div ref={threadEndRef} />
         </div>
 
         {/* composer */}
@@ -153,13 +200,15 @@ export default function ChatPage() {
             }}
             placeholder="Tell Florence anything"
             aria-label="Message Florence"
-            className="min-h-[50px] flex-1 rounded-[22px] border border-olive/16 bg-paper-soft px-[18px] py-[14px] font-sans text-[14.5px] text-ink placeholder:text-ink-soft/70 focus:outline-none"
+            disabled={sending}
+            className="min-h-[50px] flex-1 rounded-[22px] border border-olive/16 bg-paper-soft px-[18px] py-[14px] font-sans text-[14.5px] text-ink placeholder:text-ink-soft/70 focus:outline-none disabled:opacity-60"
           />
           <button
             type="button"
             onClick={send}
             aria-label="Send"
-            className="flex h-[50px] w-[50px] flex-shrink-0 items-center justify-center rounded-full bg-clay text-[20px] text-paper transition-[transform,background-color] duration-300 hover:-translate-y-px hover:bg-clay-soft"
+            disabled={sending || !draft.trim()}
+            className="flex h-[50px] w-[50px] flex-shrink-0 items-center justify-center rounded-full bg-clay text-[20px] text-paper transition-[transform,background-color] duration-300 hover:-translate-y-px hover:bg-clay-soft disabled:opacity-50"
           >
             &#8593;
           </button>
