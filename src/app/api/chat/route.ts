@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { selectKnowledge } from "@/lib/florence-knowledge";
+import { loadAllKnowledge, focusNote } from "@/lib/florence-knowledge";
 
 // Reads knowledge files from disk, so it must run on the Node.js runtime
 // (not edge) on Vercel.
@@ -64,27 +64,33 @@ export async function POST(req: Request) {
     return Response.json({ error: "No message to respond to." }, { status: 400 });
   }
 
-  const latestUserText =
-    [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
+  // Load the FULL knowledge base (VOICE + MASTER + all 17 deep docs), fresh from
+  // disk, on every request. The big block is identical each time, so prompt
+  // caching means it is not re-billed while staying fully available to the model.
+  const knowledge = await loadAllKnowledge();
+  const focus = focusNote(body.focus);
+  const profileText = profileBlock(body.profile);
 
-  // VOICE-RULES + integration layer always; deep docs by focus + topic.
-  const { alwaysText, deepText } = await selectKnowledge({
-    focus: body.focus,
-    latestUserText,
-  });
-
-  // Stable prefix (preamble + voice + integration) is cached. Volatile blocks
-  // (deep docs, her profile) come after the cache breakpoint.
   const system: Anthropic.TextBlockParam[] = [
     {
+      // stable prefix (preamble + every knowledge file) -> cached
       type: "text",
-      text: `${PREAMBLE}\n\n---\n\n${alwaysText}`,
+      text: `${PREAMBLE}\n\n---\n\n${knowledge.text}`,
       cache_control: { type: "ephemeral" },
     },
   ];
-  if (deepText) system.push({ type: "text", text: deepText });
-  const profileText = profileBlock(body.profile);
+  // volatile blocks (focus weighting, her profile) come after the cache breakpoint
+  if (focus) system.push({ type: "text", text: focus });
   if (profileText) system.push({ type: "text", text: profileText });
+
+  // Log the hidden instructions that were sent (for us only, never shown to the
+  // user) so we can confirm all files are present if a reply ever sounds generic.
+  const systemChars = system.reduce((n, b) => n + b.text.length, 0);
+  console.log(
+    `[florence] hidden instructions sent — files: ${knowledge.loaded.join(", ")} | focus: ${
+      body.focus ?? "none"
+    } | profile keys: ${Object.keys(body.profile ?? {}).join(",") || "none"} | system chars: ${systemChars}`,
+  );
 
   const client = new Anthropic();
 
