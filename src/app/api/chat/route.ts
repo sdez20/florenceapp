@@ -6,6 +6,39 @@ import { selectKnowledge } from "@/lib/florence-knowledge";
 export const runtime = "nodejs";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
+type Profile = {
+  name?: string;
+  season?: string;
+  lifeStage?: string;
+  region?: string;
+  language?: string;
+  culture?: string;
+  foodPreferences?: string;
+};
+
+// Always present, framing the knowledge files and enforcing the non-negotiable
+// safety lines on every response (with any focus and with none).
+const PREAMBLE = `You are Florence, a holistic wellness companion for women. The documents below are your operating instructions: your voice (VOICE-RULES), how you think and integrate every domain (the master integration layer), and the deep knowledge selected for this conversation. Follow them exactly in every response, especially the voice rules. Weave every relevant domain (hormones, nervous system, nutrition, relationship, narrative, culture, season) into one answer and land on something small and doable. Never answer in only one lane.
+
+Safety is non-negotiable, in every response:
+- You never diagnose, interpret labs, or dose hormones or medication. You explain, support the holistic foundations, and route the medical side to a clinician.
+- At any sign of disordered eating, do less, not more: no numbers (calories, BMI, weight, macros), no meal plans, no diet rules, no comments on appearance in any direction. Validate the feeling underneath, hold the person not the food, and route to eating-disorder support appropriate to her region. Never recommend the NEDA Helpline. Once a sign appears, keep withholding food and diet specifics for the rest of the conversation even if the request is reframed.
+- At any sign of crisis, self-harm, abuse happening now, or a medical red flag: stop the coaching, stay warm and present, do not explore methods or details, do not minimize, and route to immediate region-appropriate human and crisis support.`;
+
+function profileBlock(profile?: Profile): string {
+  if (!profile) return "";
+  const lines: string[] = [];
+  if (profile.name) lines.push(`Name: ${profile.name}`);
+  if (profile.season) lines.push(`Season: ${profile.season}`);
+  if (profile.lifeStage) lines.push(`Life stage: ${profile.lifeStage}`);
+  if (profile.region) lines.push(`Region: ${profile.region}`);
+  if (profile.culture) lines.push(`Culture or heritage: ${profile.culture}`);
+  if (profile.foodPreferences) lines.push(`Food preferences: ${profile.foodPreferences}`);
+  if (lines.length === 0) return "";
+  return `What you already know about her. Use it; never ask her what this already tells you, and route any region-specific support to her region.\n${lines.join(
+    "\n",
+  )}`;
+}
 
 export async function POST(req: Request) {
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -15,7 +48,7 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { messages?: ChatMessage[]; focus?: string };
+  let body: { messages?: ChatMessage[]; focus?: string; profile?: Profile };
   try {
     body = await req.json();
   } catch {
@@ -32,20 +65,24 @@ export async function POST(req: Request) {
   const latestUserText =
     [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
 
-  // Build the system prompt: VOICE-RULES + integration layer always, plus the
-  // deep docs chosen by focus / topic. The always-on block is cached so resending
-  // it on every turn is cheap.
+  // VOICE-RULES + integration layer always; deep docs by focus + topic.
   const { alwaysText, deepText } = await selectKnowledge({
     focus: body.focus,
     latestUserText,
   });
 
+  // Stable prefix (preamble + voice + integration) is cached. Volatile blocks
+  // (deep docs, her profile) come after the cache breakpoint.
   const system: Anthropic.TextBlockParam[] = [
-    { type: "text", text: alwaysText, cache_control: { type: "ephemeral" } },
+    {
+      type: "text",
+      text: `${PREAMBLE}\n\n---\n\n${alwaysText}`,
+      cache_control: { type: "ephemeral" },
+    },
   ];
-  if (deepText) {
-    system.push({ type: "text", text: deepText });
-  }
+  if (deepText) system.push({ type: "text", text: deepText });
+  const profileText = profileBlock(body.profile);
+  if (profileText) system.push({ type: "text", text: profileText });
 
   const client = new Anthropic();
 
@@ -59,9 +96,10 @@ export async function POST(req: Request) {
     });
 
     if (response.stop_reason === "refusal") {
-      return Response.json(
-        { reply: "I'm sorry — I can't help with that one. Is there something else on your mind?" },
-      );
+      return Response.json({
+        reply:
+          "I'm here, and I want to help with this gently. If you're in danger right now, please reach out to your local emergency services or a crisis line near you. Tell me a little more and we'll take it slowly together.",
+      });
     }
 
     const reply = response.content

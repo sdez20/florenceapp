@@ -3,13 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getStoredName, firstNameOf } from "@/lib/user";
+import { getProfile } from "@/lib/profile";
 
 const focusOptions = [
+  { label: "Mental and emotional wellbeing", d: "The inner weather you carry" },
   { label: "Relational intelligence", d: "Connection, conflict, the people around you" },
   { label: "Holistic nutrition", d: "Nourishment as care, not rules" },
   { label: "Skin health", d: "What your skin reflects, inside and out" },
-  { label: "Intimacy & desire", d: "Closeness, sexuality, your body's seasons" },
-  { label: "Steadying the body", d: "Stress, sleep, the nervous system" },
+  { label: "Intimacy and desire", d: "Closeness, sexuality, your body's seasons" },
+  { label: "Stress and the nervous system", d: "Stress, sleep, steadying the body" },
   { label: "Boundaries", d: "Saying no, holding your own ground" },
   { label: "This season of life", d: "Where your body and life are right now" },
   { label: "Just talk", d: "No focus. Whatever is here today" },
@@ -19,13 +21,19 @@ type Message = { who: "f" | "u"; text: string };
 
 export default function ChatPage() {
   const [open, setOpen] = useState(false);
-  const [focus, setFocus] = useState(focusOptions[0].label);
+  const [focus, setFocus] = useState("Just talk");
   const [thread, setThread] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
 
   const [firstName, setFirstName] = useState("");
-  useEffect(() => setFirstName(firstNameOf(getStoredName())), []);
+  const [profile, setProfile] = useState<Record<string, string>>({});
+  useEffect(() => {
+    const name = getStoredName();
+    setFirstName(firstNameOf(name));
+    // Her profile travels with every message so Florence never re-asks it.
+    setProfile({ name: firstNameOf(name), ...getProfile() });
+  }, []);
 
   const threadEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -47,6 +55,7 @@ export default function ChatPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           focus,
+          profile,
           messages: nextThread.map((m) => ({
             role: m.who === "u" ? "user" : "assistant",
             content: m.text,
