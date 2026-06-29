@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Florence — Welcome</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --linen:#FAF8F2; --sand:#EFEADC; --ivory:#FEFCF7;
+    --juniper:#1F2A22; --olive:#5C6B43; --sage:#97A06E; --champagne:#B0A06F;
+    --ink:#1F2A22; --ink-soft:#5b6157; --line:#E2DCCB;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Figtree',sans-serif;background:#E4E2D6;color:var(--ink);display:flex;justify-content:center;padding:30px}
+  .phone{width:390px;min-height:780px;background:var(--linen);border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(31,42,34,.22)}
+  .scrim{position:absolute;inset:0;background:rgba(31,42,34,.55)}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--ivory);border-radius:30px 30px 44px 44px;padding:34px 28px 30px;max-height:90%;overflow-y:auto}
+  .grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 22px}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-style:italic;font-size:34px;line-height:1.05;color:var(--juniper);margin-bottom:8px}
+  .sub{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--olive);margin-bottom:22px}
+  .intro{font-size:14px;line-height:1.6;color:var(--ink-soft);margin-bottom:22px}
+  .check{display:flex;gap:13px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line)}
+  .check:last-of-type{border-bottom:1px solid var(--line);margin-bottom:24px}
+  .box{flex-shrink:0;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--sage);margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s}
+  .box.on{background:var(--olive);border-color:var(--olive)}
+  .box.on::after{content:"";width:7px;height:12px;border:solid var(--ivory);border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-1px)}
+  .ctext{font-size:13.5px;line-height:1.55;color:var(--ink)}
+  .ctext a{color:var(--olive);text-decoration:underline}
+  .begin{width:100%;padding:17px;border:none;border-radius:16px;background:var(--juniper);color:var(--linen);font-family:'Figtree',sans-serif;font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:.15s;opacity:.4;pointer-events:none}
+  .begin.ready{opacity:1;pointer-events:auto}
+  .begin.ready:hover{background:var(--olive)}
+  .fine{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:14px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="scrim"></div>
+  <div class="sheet">
+    <div class="grip"></div>
+    <h1>Before we begin</h1>
+    <div class="sub">A few things, so you know what Florence is.</div>
+    <div class="intro">Florence is a holistic wellness companion for every season of a woman's life. She offers understanding, guidance, and a place to think things through. She is not a doctor or a therapist, and she will never replace the care of a professional.</div>
+
+    <div class="check" onclick="t(this)">
+      <div class="box"></div>
+      <div class="ctext">I am 18 years of age or older.</div>
+    </div>
+    <div class="check" onclick="t(this)">
+      <div class="box"></div>
+      <div class="ctext">I have read and agree to the <a href="terms-of-service.html">Terms of Service</a> and <a href="privacy-policy.html">Privacy Policy</a>.</div>
+    </div>
+    <div class="check" onclick="t(this)">
+      <div class="box"></div>
+      <div class="ctext">I understand Florence offers holistic wellness support, not medical care, diagnosis, or treatment, and that I should see a qualified professional for medical or mental health concerns. In an emergency, I will contact my local emergency services.</div>
+    </div>
+
+    <button class="begin" id="begin">Enter Florence</button>
+    <div class="fine">You can read these any time in Settings.</div>
+  </div>
+</div>
+<script>
+  function t(el){
+    const b=el.querySelector('.box');b.classList.toggle('on');
+    const all=[...document.querySelectorAll('.box')];
+    const ready=all.every(x=>x.classList.contains('on'));
+    document.getElementById('begin').classList.toggle('ready',ready);
+  }
+</script>
+</body>
+</html>
