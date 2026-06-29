@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
@@ -86,6 +87,17 @@ export default function SignupPage() {
           <a href="#" className="font-semibold text-clay no-underline">
             Sign in
           </a>
+        </p>
+        <p className="mt-3 text-center text-[12px] font-light leading-[1.5] text-ink-soft">
+          By continuing you agree to our{" "}
+          <Link href="/legal/terms" className="text-clay underline">
+            Terms
+          </Link>{" "}
+          and{" "}
+          <Link href="/legal/privacy" className="text-clay underline">
+            Privacy Policy
+          </Link>
+          .
         </p>
       </div>
     </PhoneFrame>

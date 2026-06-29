@@ -108,6 +108,14 @@ export default function SettingsPage() {
           <Row k="Sign out" href="/" danger />
         </div>
 
+        <SectionLabel>Legal &amp; safety</SectionLabel>
+        <div className="flex flex-col gap-[10px]">
+          <Row k="Safety & Support" sub="Crisis and support resources" href="/safety" />
+          <Row k="Privacy Policy" href="/legal/privacy" />
+          <Row k="Terms of Service" href="/legal/terms" />
+          <Row k="Medical Disclaimer" href="/legal/medical-disclaimer" />
+        </div>
+
         <div className="mt-6 text-center text-[12px] font-light leading-[1.55] text-ink-soft">
           Update anything whenever you need.
           <br />

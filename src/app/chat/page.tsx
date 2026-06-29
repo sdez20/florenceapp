@@ -94,6 +94,12 @@ export default function ChatPage() {
               Florence
             </div>
           </div>
+          <Link
+            href="/safety"
+            className="text-[11px] font-semibold uppercase tracking-[0.1em] text-clay no-underline"
+          >
+            Safety
+          </Link>
         </div>
 
         {/* focus selector */}
