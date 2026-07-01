@@ -4,16 +4,16 @@
    Screen backgrounds are a soft bright white (per request), keeping the
    olive / clay / ink brand accents from the designs. */
 :root {
-  --paper: #ffffff; /* the screen — soft bright white */
-  --paper-soft: #f6f6f4; /* faint neutral for inputs, etc. */
-  --blush: #f2f3f0; /* soft neutral card (was cream) */
+  --paper: #ffffff; /* the screen — bright white */
+  --paper-soft: #f7f7f7; /* barely-there grey for input fields */
+  --blush: #f3f4f3; /* light neutral highlight for selected options */
   --sage: #97a06e;
   --clay: #b0a06f;
   --clay-soft: #c9be9a;
   --olive: #6e7b4c;
   --ink: #1f2a22;
   --ink-soft: #7a7a6c;
-  --sand: #ededeb; /* desktop backdrop behind the phone frame */
+  --sand: #ffffff; /* desktop backdrop — also white now */
 }
 
 @theme inline {
