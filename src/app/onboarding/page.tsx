@@ -113,7 +113,7 @@ export default function OnboardingPage() {
           {step === 0 && (
             <>
               <p className={stepLabel}>To begin</p>
-              <h1 className={heading}>Where is your body right now?</h1>
+              <h1 className={heading}>What stage is your body in right now?</h1>
               <div className="flex flex-col gap-[9px]">
                 {seasons.map((s, i) => (
                   <Option

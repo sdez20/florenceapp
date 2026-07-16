@@ -2,29 +2,6 @@ import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import { cta, eyebrow } from "@/components/ui";
 
-const blocks = [
-  {
-    title: "What Florence keeps",
-    body: "Florence saves your email so you can sign in, some basic information about you, and your past conversations so you can revisit them anytime.",
-  },
-  {
-    title: "What Florence never keeps",
-    body: "She never tracks your weight, calories, food, or measurements.",
-  },
-  {
-    title: "What Florence will never do",
-    body: "Your information is never sold, shared for advertising, or handed to anyone. It's only used for Florence to help you.",
-  },
-  {
-    title: "What is always yours",
-    body: "You can view or download your information anytime, or delete your account whenever you want. Deleting it erases everything.",
-  },
-  {
-    title: "How it is kept",
-    body: "Everything you share is encrypted and protected.",
-  },
-];
-
 export default function ConsentPage() {
   return (
     <PhoneFrame>
@@ -39,20 +16,19 @@ export default function ConsentPage() {
         </p>
 
         <div className="flex flex-1 flex-col gap-[18px] overflow-y-auto pr-1.5">
-          {blocks.map((block) => (
-            <div key={block.title}>
-              <div className="mb-[5px] flex items-center gap-[9px] font-serif text-[18px] font-semibold text-ink">
-                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-clay-soft" />
-                {block.title}
-              </div>
-              <p className="pl-[15px] text-[13.5px] font-light leading-[1.62] text-ink-soft">
-                {block.body}
-              </p>
-            </div>
-          ))}
+          <p className="text-[13.5px] font-light leading-[1.62] text-ink-soft">
+            Florence saves your email so you can sign in, some basic information
+            about you, and your past conversations so you can revisit them
+            anytime. She never tracks your weight, calories, food, or
+            measurements. Your information is never sold, shared for advertising,
+            or handed to anyone. It&apos;s only used for Florence to help you. You
+            can view or download your information anytime, or delete your account
+            whenever you want. Deleting it erases everything. Everything you
+            share is encrypted and protected.
+          </p>
           <a
             href="#"
-            className="pl-[15px] text-[13px] font-semibold text-clay no-underline"
+            className="text-[13px] font-semibold text-clay no-underline"
           >
             Read the full privacy policy &rsaquo;
           </a>
