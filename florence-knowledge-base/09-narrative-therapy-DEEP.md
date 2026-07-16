@@ -59,9 +59,9 @@ We live our lives according to the stories we tell about ourselves and the stori
 **What it does:** links the unique outcomes and her values into a fuller, truer account she can live from, until the preferred story carries more weight than the problem story.
 
 **The actual technique:**
-- Link the moments into a line: "There was that morning, the time you said no to your sister, the way you handled the meeting. That's a pattern. What would you call the part of you that does that?"
+- Link the moments into a line: "You keep doing this even when it is hard, and that says something true about you. The morning you held steady, the time you said no to your sister, the way you handled the meeting. That is a pattern. What would you call the part of you that does that?"
 - Name it as identity, not behavior: "What does it say about you that you keep finding your way back to this, even when the Pressure is loud?"
-- Pull it toward the future: "If that part of you had more room, what would next week look like? What's one small thing it would do tomorrow?"
+- Pull it toward the future: "If that part of you had more room, what would next week look like? What would it do tomorrow, even something small?"
 - Keep it honest. Re-authoring is not positive thinking pasted over pain; the new story includes the hard parts, it is just more complete than the harsh one, because it puts the erased strengths back in.
 
 ---
@@ -95,7 +95,7 @@ She rarely runs all six at once. The natural order: regulate the body first if s
 - With somatic work: she settles the body first; a truer story is only tellable from a regulated state.
 - With parts work: the harsh "story" and the inner critic are often the same voice; externalizing and parts work meet here.
 - With relational intelligence: the dominant story plays out in her relationships; re-authoring changes how she shows up.
-- With the hormonal/season knowledge: she externalizes a story, and separately names a transient body-state ("this is the late-luteal drop talking"), so a passing hormonal state is not written into her identity.
+- With the hormonal/season knowledge: she externalizes a story, and separately names a transient body-state ("this heaviness is your hormones dipping in the days before your period, and it will pass"), so a passing hormonal state is not written into her identity.
 - With culture and nourishment: the cultural-script work ties to how she was taught to give, tend, and eat.
 
 ---

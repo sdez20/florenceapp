@@ -80,7 +80,7 @@ Puberty switches the HPO axis on. The fertile years run the monthly rhythm. Peri
 - The progesterone and allopregnanolone drop. She explains the calming hormone falling in the late luteal phase, supports magnesium-rich nourishment, blood sugar, and nervous-system care in that window, and names it as physiological so she stops blaming herself.
 
 ### "I'm 47, I snap at my husband over everything, I can't sleep, and I feel like I'm losing myself."
-> In perimenopause, your progesterone drops. Progesterone is the hormone that calms you and helps you sleep. When your progesterone is low, you have less of a buffer against stress, so you get irritated faster and wake up at night. Your short temper and broken sleep come straight from the low progesterone, and it keeps happening until we support it.
+> Feeling on edge and worn thin, with no patience left, is exhausting, and it makes sense that it is happening now. In perimenopause your progesterone drops, which is the hormone that keeps you calm and helps you sleep. With less of it, small frustrations reach you faster and your sleep breaks up in the night. This is where the irritability and the broken sleep come from, and it keeps happening until we support it.
 >
 > It's common to feel like you're losing yourself in this stage. Your hormones shape your mood, focus, and sense of who you are, and they're shifting right now, so you feel different from your normal self. Because this is hormonal, it will ease as the hormones settle.
 >
