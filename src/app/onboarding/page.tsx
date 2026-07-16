@@ -68,7 +68,6 @@ export default function OnboardingPage() {
   // No default region. She must choose, so her profile never silently claims a
   // country she isn't in — this is what routes crisis support to the right place.
   const [region, setRegion] = useState("");
-  const [language, setLanguage] = useState("English");
   const [culture, setCulture] = useState("");
   const [birthday, setBirthday] = useState("");
 
@@ -86,7 +85,8 @@ export default function OnboardingPage() {
     saveProfile({
       season: seasons[season].label,
       region,
-      language,
+      // Florence only speaks English right now, so language isn't asked.
+      language: "English",
       culture,
       birthday,
       source: sources[source].label,
@@ -130,17 +130,30 @@ export default function OnboardingPage() {
 
           {step === 1 && (
             <>
-              <p className={stepLabel}>Where you are</p>
-              <h1 className={heading}>So Florence speaks your world.</h1>
+              <h1 className={heading}>A little about you.</h1>
               <div className="mb-[18px]">
-                <label className={fieldLabel}>Region</label>
+                <label className={fieldLabel}>
+                  What is your cultural background or heritage?
+                </label>
+                <input
+                  type="text"
+                  placeholder="However you'd describe it"
+                  className={fieldInput}
+                  value={culture}
+                  onChange={(e) => setCulture(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={fieldLabel}>Where do you live?</label>
+                {/* Required. Her country feeds the safety and region routing, so
+                    it's an explicit choice saved clearly to her profile. */}
                 <select
                   className={`${fieldInput} ${region ? "" : "text-ink-soft/55"}`}
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
                 >
                   <option value="" disabled>
-                    Select your region
+                    Select where you live
                   </option>
                   <option>United States</option>
                   <option>Canada</option>
@@ -148,19 +161,6 @@ export default function OnboardingPage() {
                   <option>Europe</option>
                   <option>Trinidad &amp; the Caribbean</option>
                   <option>Elsewhere</option>
-                </select>
-              </div>
-              <div>
-                <label className={fieldLabel}>Language</label>
-                <select
-                  className={fieldInput}
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                >
-                  <option>English</option>
-                  <option>Español</option>
-                  <option>Français</option>
-                  <option>Português</option>
                 </select>
               </div>
             </>
