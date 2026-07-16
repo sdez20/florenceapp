@@ -48,3 +48,60 @@ export function emergencyFor(country?: string): EmergencyResource | null {
   if (!country) return null;
   return VERIFIED_EMERGENCY[country.trim()] ?? null;
 }
+
+// ---------------------------------------------------------------------------
+// Belt-and-suspenders hard stop.
+//
+// The primary safety control is the prompt (see the chat route). This is the
+// backup: a deterministic server-side scrub that runs ONLY for countries with
+// no verified numbers. For any such country, phone-number-shaped text is
+// removed from Florence's reply before it reaches the woman, so even if the
+// model ignored its instructions and produced a number, she never sees it.
+// For verified countries this NEVER runs, so their correct numbers are always
+// preserved untouched.
+
+const REDACTION = "your local emergency number";
+
+/** True when we must scrub numbers because the country isn't verified (or is
+ *  unknown). Returns false for every country in the verified registry. */
+export function shouldSanitizeEmergencyNumbers(country?: string): boolean {
+  return emergencyFor(country) === null;
+}
+
+// Words that mark a sentence as being about reaching emergency or crisis help.
+// Inside such a sentence, for an unverified country, we remove every short
+// number too — that is where a wrong code like 112 or 199 would appear.
+const EMERGENCY_CUE =
+  /\b(call|dial|ring|phone|text|hotlines?|help\s?lines?|crisis|lifelines?|emergenc(?:y|ies)|ambulance|police|samaritans|counsell?or|suicid|self[-\s]?harm|in danger|hurt (?:yourself|myself)|kill (?:yourself|myself))\b/i;
+
+/**
+ * Removes phone-number-shaped text so a wrong or invented number can never
+ * reach her. Two passes:
+ *   1. Any grouped or long number with 6+ digits (hotlines, toll-free,
+ *      international, 10-digit numbers) is removed everywhere.
+ *   2. Inside any sentence about reaching emergency or crisis help, remaining
+ *      short 2–5 digit numbers (e.g. 112, 199, 999) are removed too.
+ * Everyday numbers in ordinary sentences (dates, "8 hours", "100 grams",
+ * "roast at 350 for 25 minutes") are left alone, because those sentences carry
+ * no emergency cue. Call this ONLY for unverified countries.
+ */
+export function stripPhoneLikeNumbers(text: string): string {
+  // Pass 1: phone-shaped 6+ digit sequences, anywhere in the text.
+  let out = text.replace(/\+?\d[\d\s()-]{3,}\d/g, (m) =>
+    (m.match(/\d/g)?.length ?? 0) >= 6 ? REDACTION : m,
+  );
+
+  // Pass 2: within emergency/crisis sentences only, remove remaining short
+  // numbers. Splitting on sentence punctuation keeps each cue scoped to its own
+  // sentence, so an everyday number in a neighbouring sentence is untouched.
+  out = out
+    .split(/([.!?\n]+)/)
+    .map((seg, i) =>
+      i % 2 === 0 && EMERGENCY_CUE.test(seg)
+        ? seg.replace(/\b\d{2,5}\b/g, REDACTION)
+        : seg,
+    )
+    .join("");
+
+  return out;
+}

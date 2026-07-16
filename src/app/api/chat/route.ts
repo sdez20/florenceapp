@@ -1,6 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { loadAllKnowledge, focusNote } from "@/lib/florence-knowledge";
-import { emergencyFor } from "@/lib/emergency";
+import {
+  emergencyFor,
+  shouldSanitizeEmergencyNumbers,
+  stripPhoneLikeNumbers,
+} from "@/lib/emergency";
 
 // Reads knowledge files from disk, so it must run on the Node.js runtime
 // (not edge) on Vercel.
@@ -75,6 +79,17 @@ function regionSafetyBlock(profile?: Profile): string {
   return `She lives in ${country}. We do not have verified emergency or crisis numbers for ${country} in the system. This is a hard safety rule with no exceptions: you must NOT state, recall, guess, estimate, or invent any emergency number, crisis line, ambulance number, or hotline for ${country}, even if you are confident you know one, because an incorrect number in a crisis can cost a life. If she is in danger or crisis, urgently tell her to contact her local emergency services immediately and ask her to confirm the correct local emergency number for where she is. Stay with her, keep her talking, and support her while she reaches help. Give no number yourself.`;
 }
 
+// Index just after the last sentence boundary, so while scrubbing we only flush
+// complete sentences. Phone-shaped matches never cross these boundaries, so a
+// number is always evaluated whole before any text is sent.
+function sentenceCut(s: string): number {
+  let idx = -1;
+  for (const ch of [".", "!", "?", "\n"]) {
+    idx = Math.max(idx, s.lastIndexOf(ch));
+  }
+  return idx + 1;
+}
+
 export async function POST(req: Request) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return Response.json(
@@ -139,6 +154,12 @@ export async function POST(req: Request) {
   const responseStream = new ReadableStream<Uint8Array>({
     async start(controller) {
       try {
+        // Hard stop: for any country without verified numbers (or unknown), scrub
+        // phone-number-shaped text from her reply before it is sent, so a wrong or
+        // invented emergency number can never reach her. Verified countries are
+        // never scrubbed, so their correct numbers are always preserved.
+        const sanitize = shouldSanitizeEmergencyNumbers(body.profile?.region);
+
         const stream = client.messages.stream({
           model: "claude-opus-4-8",
           max_tokens: 8000,
@@ -147,11 +168,28 @@ export async function POST(req: Request) {
           messages: messages.map((m) => ({ role: m.role, content: m.content })),
         });
 
-        // Only the text deltas reach the woman; thinking stays hidden.
+        // Only the text deltas reach the woman; thinking stays hidden. When
+        // scrubbing, we hold text until a sentence boundary so a number split
+        // across streamed chunks is always seen (and removed) whole.
+        let pending = "";
         for await (const event of stream) {
           if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-            controller.enqueue(encoder.encode(event.delta.text));
+            const t = event.delta.text;
+            if (!sanitize) {
+              controller.enqueue(encoder.encode(t));
+              continue;
+            }
+            pending += t;
+            const cut = sentenceCut(pending);
+            if (cut > 0) {
+              controller.enqueue(encoder.encode(stripPhoneLikeNumbers(pending.slice(0, cut))));
+              pending = pending.slice(cut);
+            }
           }
+        }
+        if (sanitize && pending) {
+          controller.enqueue(encoder.encode(stripPhoneLikeNumbers(pending)));
+          pending = "";
         }
 
         const final = await stream.finalMessage();
