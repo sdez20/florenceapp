@@ -65,12 +65,19 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(0);
   const [season, setSeason] = useState(0);
   const [source, setSource] = useState(1);
-  const [region, setRegion] = useState("Trinidad & the Caribbean");
+  // No default region. She must choose, so her profile never silently claims a
+  // country she isn't in — this is what routes crisis support to the right place.
+  const [region, setRegion] = useState("");
   const [language, setLanguage] = useState("English");
   const [culture, setCulture] = useState("");
   const [birthday, setBirthday] = useState("");
 
+  // She can't leave the region step until she has chosen one — a blank region
+  // is never saved, so Florence is never left guessing her country.
+  const canContinue = step !== 1 || region !== "";
+
   const next = () => {
+    if (!canContinue) return;
     if (step < 3) {
       setStep(step + 1);
       return;
@@ -128,15 +135,18 @@ export default function OnboardingPage() {
               <div className="mb-[18px]">
                 <label className={fieldLabel}>Region</label>
                 <select
-                  className={fieldInput}
+                  className={`${fieldInput} ${region ? "" : "text-ink-soft/55"}`}
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
                 >
-                  <option>Trinidad &amp; the Caribbean</option>
+                  <option value="" disabled>
+                    Select your region
+                  </option>
                   <option>United States</option>
+                  <option>Canada</option>
                   <option>United Kingdom</option>
                   <option>Europe</option>
-                  <option>Canada</option>
+                  <option>Trinidad &amp; the Caribbean</option>
                   <option>Elsewhere</option>
                 </select>
               </div>
@@ -201,7 +211,12 @@ export default function OnboardingPage() {
           )}
         </div>
 
-        <button type="button" onClick={next} className={`${cta} flex-shrink-0`}>
+        <button
+          type="button"
+          onClick={next}
+          disabled={!canContinue}
+          className={`${cta} flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50`}
+        >
           {step < 3 ? "Continue" : "Meet Florence"}
         </button>
       </div>

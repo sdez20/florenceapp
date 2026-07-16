@@ -4,6 +4,7 @@ import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
 import StoredName from "@/components/StoredName";
+import ProfileField from "@/components/ProfileField";
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -83,9 +84,17 @@ export default function SettingsPage() {
 
         <SectionLabel>Where you are</SectionLabel>
         <div className="flex flex-col gap-[10px]">
-          <Row k="Season" sub="Cycling" cur="Change" />
+          <Row
+            k="Season"
+            sub={<ProfileField field="season" fallback="Not set yet" />}
+            cur="Change"
+          />
           <Row k="Life stage" sub="Command years" cur="Change" />
-          <Row k="Region" sub="Trinidad & the Caribbean" cur="Change" />
+          <Row
+            k="Region"
+            sub={<ProfileField field="region" fallback="Not set yet" />}
+            cur="Change"
+          />
         </div>
 
         <SectionLabel>How you live</SectionLabel>
@@ -97,9 +106,18 @@ export default function SettingsPage() {
         <SectionLabel>You</SectionLabel>
         <div className="flex flex-col gap-[10px]">
           <Row k="Name" sub={<StoredName fallback="Your name" />} />
-          <Row k="Birthday" sub="14 June" />
-          <Row k="Heritage" sub="Trinidadian" />
-          <Row k="Language" sub="English" />
+          <Row
+            k="Birthday"
+            sub={<ProfileField field="birthday" fallback="Not set yet" />}
+          />
+          <Row
+            k="Heritage"
+            sub={<ProfileField field="culture" fallback="Not set yet" />}
+          />
+          <Row
+            k="Language"
+            sub={<ProfileField field="language" fallback="English" />}
+          />
         </div>
 
         <SectionLabel>Your account</SectionLabel>

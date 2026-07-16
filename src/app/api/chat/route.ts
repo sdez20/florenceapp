@@ -42,6 +42,17 @@ function profileBlock(profile?: Profile): string {
   )}`;
 }
 
+// Always present. Emergency numbers and crisis lines are country-specific, so a
+// wrong guess in a crisis is dangerous. This pins Florence to her stated region
+// from the first message, and forbids guessing a country when it is unknown.
+function regionSafetyBlock(profile?: Profile): string {
+  const region = profile?.region?.trim();
+  if (region) {
+    return `Her region is ${region}. From your very first response, any emergency number, crisis line, hotline, or region-specific service you name must be correct for ${region}. Never default to, assume, or fall back to any other country's numbers.`;
+  }
+  return `You do not know her country or region yet. Never assume one, and never name a country-specific emergency number, crisis line, or hotline on a guess. If something urgent arises before you know where she is, point her to her local emergency services and gently ask what country she is in, then give the resource for that country.`;
+}
+
 export async function POST(req: Request) {
   if (!process.env.ANTHROPIC_API_KEY) {
     return Response.json(
@@ -82,6 +93,8 @@ export async function POST(req: Request) {
   // volatile blocks (focus weighting, her profile) come after the cache breakpoint
   if (focus) system.push({ type: "text", text: focus });
   if (profileText) system.push({ type: "text", text: profileText });
+  // Region safety is always sent, whether or not she has a profile yet.
+  system.push({ type: "text", text: regionSafetyBlock(body.profile) });
 
   // Log the hidden instructions that were sent (for us only, never shown to the
   // user) so we can confirm all files are present if a reply ever sounds generic.
