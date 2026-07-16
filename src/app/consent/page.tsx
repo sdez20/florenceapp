@@ -5,23 +5,23 @@ import { cta, eyebrow } from "@/components/ui";
 const blocks = [
   {
     title: "What Florence keeps",
-    body: "Your email, so you can sign in. Your season and a little about you, so Florence can meet you where you are. Your check-ins and conversations, so you can look back and see yourself over time.",
+    body: "Florence saves your email so you can sign in, some basic information about you, and your past conversations so you can revisit them anytime.",
   },
   {
     title: "What Florence never keeps",
-    body: "No weight, no calories, no food logs, no measurements. Florence is about how you feel, not numbers about your body.",
+    body: "She never tracks your weight, calories, food, or measurements.",
   },
   {
     title: "What Florence will never do",
-    body: "We do not sell your data. We do not share it for advertising. We do not hand it to anyone or use it for anything beyond Florence being here for you.",
+    body: "Your information is never sold, shared for advertising, or handed to anyone. It's only used for Florence to help you.",
   },
   {
     title: "What is always yours",
-    body: "You can see everything Florence holds, and take a copy whenever you want. You can delete your account at any time. When you do, your information is removed right away and fully cleared from our systems shortly after.",
+    body: "You can view or download your information anytime, or delete your account whenever you want. Deleting it erases everything.",
   },
   {
     title: "How it is kept",
-    body: "Your data is encrypted and protected, and only you can ever see it.",
+    body: "Everything you share is encrypted and protected.",
   },
 ];
 
@@ -34,8 +34,8 @@ export default function ConsentPage() {
           Before we begin
         </h1>
         <p className="mb-6 max-w-[34ch] text-[14px] font-light leading-[1.6] text-ink-soft">
-          Florence is a private place. Before you share anything, here is exactly
-          how your trust is held.
+          Florence is a private place. Before you share anything, here is how
+          your privacy is protected.
         </p>
 
         <div className="flex flex-1 flex-col gap-[18px] overflow-y-auto pr-1.5">
