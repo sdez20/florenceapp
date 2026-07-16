@@ -62,11 +62,41 @@ export default function ChatPage() {
           })),
         }),
       });
-      const data = await res.json();
-      setThread((t) => [
-        ...t,
-        { who: "f", text: res.ok ? data.reply || "…" : data.error ?? "Something went wrong." },
-      ]);
+
+      // A non-OK response (missing key, bad request) still comes back as JSON.
+      if (!res.ok || !res.body) {
+        let msg = "Something went wrong.";
+        try {
+          msg = (await res.json()).error ?? msg;
+        } catch {}
+        setThread((t) => [...t, { who: "f", text: msg }]);
+        return;
+      }
+
+      // Add an empty Florence bubble, then fill it as her words stream in.
+      setSending(false);
+      setThread((t) => [...t, { who: "f", text: "" }]);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let text = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        setThread((t) => {
+          const copy = [...t];
+          copy[copy.length - 1] = { who: "f", text };
+          return copy;
+        });
+      }
+      if (!text) {
+        setThread((t) => {
+          const copy = [...t];
+          copy[copy.length - 1] = { who: "f", text: "…" };
+          return copy;
+        });
+      }
     } catch {
       setThread((t) => [
         ...t,

@@ -114,46 +114,59 @@ export async function POST(req: Request) {
 
   const client = new Anthropic();
 
-  try {
-    const response = await client.messages.create({
-      model: "claude-opus-4-8",
-      max_tokens: 8000,
-      thinking: { type: "adaptive" },
-      system,
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
-    });
+  // Stream her reply token by token so the woman sees words appear as Florence
+  // writes them, instead of waiting for the whole message. The text is sent as a
+  // plain UTF-8 stream; the chat page reads it and appends as it arrives.
+  const encoder = new TextEncoder();
+  const FALLBACK =
+    "I'm here, and I want to help with this gently. If you're in danger right now, please reach out to your local emergency services or a crisis line near you. Tell me a little more and we'll take it slowly together.";
 
-    if (response.stop_reason === "refusal") {
-      return Response.json({
-        reply:
-          "I'm here, and I want to help with this gently. If you're in danger right now, please reach out to your local emergency services or a crisis line near you. Tell me a little more and we'll take it slowly together.",
-      });
-    }
+  const responseStream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      try {
+        const stream = client.messages.stream({
+          model: "claude-opus-4-8",
+          max_tokens: 8000,
+          thinking: { type: "adaptive" },
+          system,
+          messages: messages.map((m) => ({ role: m.role, content: m.content })),
+        });
 
-    const reply = response.content
-      .filter((b): b is Anthropic.TextBlock => b.type === "text")
-      .map((b) => b.text)
-      .join("\n")
-      .trim();
+        // Only the text deltas reach the woman; thinking stays hidden.
+        for await (const event of stream) {
+          if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
+            controller.enqueue(encoder.encode(event.delta.text));
+          }
+        }
 
-    return Response.json({ reply });
-  } catch (err) {
-    if (err instanceof Anthropic.AuthenticationError) {
-      return Response.json(
-        { error: "The Anthropic API key looks invalid. Double-check ANTHROPIC_API_KEY in .env.local." },
-        { status: 401 },
-      );
-    }
-    if (err instanceof Anthropic.RateLimitError) {
-      return Response.json(
-        { error: "Florence is a little busy right now. Please try again in a moment." },
-        { status: 429 },
-      );
-    }
-    console.error("Florence chat error:", err);
-    return Response.json(
-      { error: "Something went wrong reaching Florence. Please try again." },
-      { status: 500 },
-    );
-  }
+        const final = await stream.finalMessage();
+        // If safety declined the request, nothing streamed — send the gentle line.
+        if (final.stop_reason === "refusal") {
+          controller.enqueue(encoder.encode(FALLBACK));
+        }
+        controller.close();
+      } catch (err) {
+        // Errors surface mid-stream, so send a warm line as her message rather
+        // than a raw error, and log the real cause for us.
+        let message = "I couldn't quite reach my thoughts just now. Please try again in a moment.";
+        if (err instanceof Anthropic.AuthenticationError) {
+          message = "Florence isn't connected yet. (The API key needs checking.)";
+        } else if (err instanceof Anthropic.RateLimitError) {
+          message = "I'm a little busy right now. Please try again in a moment.";
+        } else {
+          console.error("Florence chat error:", err);
+        }
+        controller.enqueue(encoder.encode(message));
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(responseStream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+      "X-Accel-Buffering": "no",
+    },
+  });
 }
