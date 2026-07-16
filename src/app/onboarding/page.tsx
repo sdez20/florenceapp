@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PhoneFrame from "@/components/PhoneFrame";
+import CountrySelect from "@/components/CountrySelect";
 import { cta } from "@/components/ui";
 import { saveProfile } from "@/lib/profile";
 
@@ -77,7 +78,7 @@ export default function OnboardingPage() {
 
   const next = () => {
     if (!canContinue) return;
-    if (step < 3) {
+    if (step < 2) {
       setStep(step + 1);
       return;
     }
@@ -99,7 +100,7 @@ export default function OnboardingPage() {
       <div className="flex flex-1 flex-col overflow-y-auto px-[30px] pb-7 pt-14">
         {/* progress dots */}
         <div className="flex gap-[7px]">
-          {[0, 1, 2, 3].map((i) => (
+          {[0, 1, 2].map((i) => (
             <i
               key={i}
               className={`h-[3px] w-6 rounded-[2px] ${
@@ -143,41 +144,15 @@ export default function OnboardingPage() {
                   onChange={(e) => setCulture(e.target.value)}
                 />
               </div>
-              <div>
-                <label className={fieldLabel}>Where do you live?</label>
-                {/* Required. Her country feeds the safety and region routing, so
-                    it's an explicit choice saved clearly to her profile. */}
-                <select
-                  className={`${fieldInput} ${region ? "" : "text-ink-soft/55"}`}
-                  value={region}
-                  onChange={(e) => setRegion(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select where you live
-                  </option>
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>United Kingdom</option>
-                  <option>Europe</option>
-                  <option>Trinidad &amp; the Caribbean</option>
-                  <option>Elsewhere</option>
-                </select>
-              </div>
-            </>
-          )}
-
-          {step === 2 && (
-            <>
-              <p className={stepLabel}>A little about you</p>
-              <h1 className={heading}>The things that make you, you.</h1>
               <div className="mb-[18px]">
-                <label className={fieldLabel}>Your culture or heritage</label>
-                <input
-                  type="text"
-                  placeholder="However you'd describe it"
-                  className={fieldInput}
-                  value={culture}
-                  onChange={(e) => setCulture(e.target.value)}
+                <label className={fieldLabel}>Where do you live?</label>
+                {/* Required (enforced by canContinue). Her country feeds
+                    personalization and the safety and region routing, so it is an
+                    explicit choice saved clearly to her profile. */}
+                <CountrySelect
+                  value={region}
+                  onChange={setRegion}
+                  inputClassName={fieldInput}
                 />
               </div>
               <div>
@@ -193,7 +168,7 @@ export default function OnboardingPage() {
             </>
           )}
 
-          {step === 3 && (
+          {step === 2 && (
             <>
               <p className={stepLabel}>One last thing</p>
               <h1 className={heading}>How did you find Florence?</h1>
@@ -217,7 +192,7 @@ export default function OnboardingPage() {
           disabled={!canContinue}
           className={`${cta} flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-50`}
         >
-          {step < 3 ? "Continue" : "Meet Florence"}
+          {step < 2 ? "Continue" : "Meet Florence"}
         </button>
       </div>
     </PhoneFrame>

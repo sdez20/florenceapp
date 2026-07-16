@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { loadAllKnowledge, focusNote } from "@/lib/florence-knowledge";
+import { emergencyFor } from "@/lib/emergency";
 
 // Reads knowledge files from disk, so it must run on the Node.js runtime
 // (not edge) on Vercel.
@@ -49,15 +50,29 @@ function profileBlock(profile?: Profile): string {
   )}`;
 }
 
-// Always present. Emergency numbers and crisis lines are country-specific, so a
-// wrong guess in a crisis is dangerous. This pins Florence to her stated region
-// from the first message, and forbids guessing a country when it is unknown.
+// Always present. Emergency numbers and crisis lines are country-specific, and a
+// wrong number in a crisis is dangerous. Florence may give a number ONLY when it
+// is verified for her country in src/lib/emergency.ts. For any country not in
+// that registry (and when her country is unknown) she gives no number at all and
+// routes her to her local emergency services. She never guesses or invents one.
 function regionSafetyBlock(profile?: Profile): string {
-  const region = profile?.region?.trim();
-  if (region) {
-    return `Her region is ${region}. From your very first response, any emergency number, crisis line, hotline, or region-specific service you name must be correct for ${region}. Never default to, assume, or fall back to any other country's numbers.`;
+  const country = profile?.region?.trim();
+
+  if (!country) {
+    return `You do not know her country yet. Never assume one, and never state, recall, guess, or invent any emergency number, crisis line, ambulance number, or hotline. If anything urgent arises before you know where she is, urgently tell her to contact her local emergency services right now and ask her to confirm the correct local emergency number for where she is, then stay with her and keep supporting her while she reaches help.`;
   }
-  return `You do not know her country or region yet. Never assume one, and never name a country-specific emergency number, crisis line, or hotline on a guess. If something urgent arises before you know where she is, point her to her local emergency services and gently ask what country she is in, then give the resource for that country.`;
+
+  const verified = emergencyFor(country);
+  if (verified) {
+    const lines = [`Emergency services: ${verified.emergency}`];
+    if (verified.crisis) lines.push(`Crisis and mental-health support: ${verified.crisis}`);
+    return `She lives in ${country}. These are the only emergency and crisis numbers you may ever give her, and they are verified current for ${country}:\n${lines.join(
+      "\n",
+    )}\nIn any crisis give these exactly as written. Never give any other number for her country, and never alter these.`;
+  }
+
+  // No verified numbers for this country. Florence must not produce any number.
+  return `She lives in ${country}. We do not have verified emergency or crisis numbers for ${country} in the system. This is a hard safety rule with no exceptions: you must NOT state, recall, guess, estimate, or invent any emergency number, crisis line, ambulance number, or hotline for ${country}, even if you are confident you know one, because an incorrect number in a crisis can cost a life. If she is in danger or crisis, urgently tell her to contact her local emergency services immediately and ask her to confirm the correct local emergency number for where she is. Stay with her, keep her talking, and support her while she reaches help. Give no number yourself.`;
 }
 
 export async function POST(req: Request) {
