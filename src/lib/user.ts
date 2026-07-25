@@ -12,15 +12,23 @@ export function setStoredName(name: string) {
   }
 }
 
+/** Capitalize the first letter of a name, leaving the rest as she typed it. A
+ * name is a proper noun, so it always displays with a capital first letter. */
+function capitalizeFirst(name: string): string {
+  const trimmed = name.trimStart();
+  return trimmed ? trimmed.charAt(0).toUpperCase() + trimmed.slice(1) : trimmed;
+}
+
 export function getStoredName(): string {
   try {
-    return localStorage.getItem(NAME_KEY) ?? "";
+    return capitalizeFirst(localStorage.getItem(NAME_KEY) ?? "");
   } catch {
     return "";
   }
 }
 
-/** The first word of a full name, e.g. "Sarah" from "Sarah de Souza". */
+/** The first word of a full name, e.g. "Sarah" from "sarah de Souza", always
+ * capitalized. */
 export function firstNameOf(full: string): string {
-  return full.trim().split(/\s+/)[0] ?? "";
+  return capitalizeFirst(full.trim().split(/\s+/)[0] ?? "");
 }
