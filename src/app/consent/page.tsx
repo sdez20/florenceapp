@@ -15,12 +15,9 @@ export default function ConsentPage() {
     <PhoneFrame>
       <div className="flex flex-1 flex-col overflow-hidden px-8 pt-16">
         <p className={`${eyebrow} mb-4 tracking-[0.3em]`}>Florence</p>
-        <h1 className="mb-2 font-serif text-[34px] font-medium leading-[1.1] text-ink">
-          Before we begin
+        <h1 className="mb-6 font-serif text-[34px] font-medium leading-[1.1] text-ink">
+          We protect your privacy
         </h1>
-        <p className="mb-6 max-w-[34ch] text-[14px] font-light leading-[1.6] text-ink-soft">
-          Here&apos;s how your privacy is protected.
-        </p>
 
         <div className="flex flex-1 flex-col overflow-y-auto pr-1.5">
           <ul className="flex flex-col gap-[15px]">
