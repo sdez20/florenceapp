@@ -6,13 +6,6 @@ import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
 import { getStoredName, firstNameOf } from "@/lib/user";
 
-function greetingFor(date: Date) {
-  const hour = date.getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
-
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-GB", {
     weekday: "long",
@@ -53,7 +46,7 @@ export default function TodayPage() {
     setNow(new Date());
     setFirstName(firstNameOf(getStoredName()));
   }, []);
-  const greeting = now ? greetingFor(now) : "Hello";
+  const greeting = "Hello";
   const dateLabel = now ? formatDate(now) : " ";
 
   const setDim = (i: number, raw: number) => {
@@ -76,8 +69,7 @@ export default function TodayPage() {
           {greeting}
           {firstName ? (
             <>
-              ,
-              <br />
+              {", "}
               <em className="italic text-clay">{firstName}</em>.
             </>
           ) : (
