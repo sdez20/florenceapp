@@ -65,6 +65,13 @@ function profileBlock(profile?: Profile): string {
   )}`;
 }
 
+// In a skin health chat, Florence understands her skin before recommending
+// anything: what her skin is like, what is going on, her routine, her favorites.
+function skinHealthBlock(focus?: string): string {
+  if (focus !== "Skin health") return "";
+  return `This is a skin health conversation. Understand her skin fully before you recommend any product, ingredient, or routine change. Your first question is to warmly invite her to describe her skin. From there, explore what is going on with it right now: her main concerns, how it behaves and changes, how it feels. Over the conversation also learn the products in her current daily routine, which ones are her favorites, and what she is hoping to solve, so you build a complete picture of her skin. Ask a little at a time, one or two questions woven into a warm reply, never a checklist or an interrogation. Only once you understand her skin, her routine, and what she already loves do you suggest specific products or changes, and you build on what is working for her rather than replacing it wholesale.`;
+}
+
 // When Florence suggests foods, she starts from the woman's own culture and only
 // then offers to explore other cultures' foods, so her nourishment is rooted in
 // what she grew up with and can find near her.
@@ -150,6 +157,9 @@ export async function POST(req: Request) {
   // volatile blocks (focus weighting, her profile) come after the cache breakpoint
   if (focus) system.push({ type: "text", text: focus });
   if (profileText) system.push({ type: "text", text: profileText });
+  // Skin health chats: understand her skin fully before recommending products.
+  const skinBlock = skinHealthBlock(body.focus);
+  if (skinBlock) system.push({ type: "text", text: skinBlock });
   // How she suggests foods: culture-first, then offer other cultures.
   system.push({ type: "text", text: foodCultureBlock(body.profile) });
   // Region safety is always sent, whether or not she has a profile yet.
