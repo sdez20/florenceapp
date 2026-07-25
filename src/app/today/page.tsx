@@ -187,7 +187,7 @@ function Slider({
       </div>
       <div
         ref={trackRef}
-        className="relative h-1 cursor-pointer rounded-[2px] bg-olive/16 touch-none"
+        className="relative h-1 cursor-pointer rounded-[2px] bg-olive/25 touch-none"
         onPointerDown={(e) => {
           dragging.current = true;
           e.currentTarget.setPointerCapture(e.pointerId);
@@ -200,10 +200,6 @@ function Slider({
           dragging.current = false;
         }}
       >
-        <div
-          className="absolute left-0 top-0 bottom-0 rounded-[2px] bg-paper transition-[width] duration-[400ms] ease-[cubic-bezier(.22,1,.36,1)]"
-          style={{ width: `${pct}%` }}
-        />
         <div
           className="absolute top-1/2 h-[15px] w-[15px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_2px_7px_rgba(58,53,46,0.22),0_0_0_1px_rgba(92,107,67,0.18)] transition-[left] duration-[400ms] ease-[cubic-bezier(.22,1,.36,1)]"
           style={{ left: `${pct}%` }}
