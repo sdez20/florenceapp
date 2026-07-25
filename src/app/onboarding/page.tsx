@@ -27,7 +27,7 @@ const sources = [
 const stepLabel =
   "mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-clay";
 const heading =
-  "mb-[22px] font-serif text-[32px] font-medium leading-[1.12] text-ink";
+  "mb-[22px] font-serif text-[20px] font-medium leading-[1.2] text-ink";
 const fieldLabel = "mb-[7px] block pl-0.5 text-[12px] font-medium text-ink-soft";
 const fieldInput =
   "w-full rounded-[13px] border-[1.5px] border-olive/22 bg-transparent px-4 py-[14px] font-sans text-[14.5px] text-ink placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -163,7 +163,7 @@ export default function OnboardingPage() {
                 <label className={fieldLabel}>Your birthday</label>
                 <input
                   type="text"
-                  placeholder="14 June 1979"
+                  placeholder="mm/dd/yyyy"
                   className={fieldInput}
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
