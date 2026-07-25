@@ -34,7 +34,6 @@ function wordFor(i: number, p: number) {
 }
 
 export default function TodayPage() {
-  const [done, setDone] = useState(false);
   const [pct, setPct] = useState(initialPct);
   const [words, setWords] = useState(initialWords);
 
@@ -76,73 +75,30 @@ export default function TodayPage() {
             "."
           )}
         </div>
-        {!done && (
-          <div className="mt-[14px] text-[14.5px] font-light text-ink-soft">
-            How are you feeling today?
-          </div>
-        )}
-
-        <div className="flex flex-1 flex-col justify-center py-2">
-          {!done ? (
-            <div className="flex flex-col gap-[30px]">
-              {dims.map((dim, i) => (
-                <Slider
-                  key={dim.label}
-                  label={dim.label}
-                  word={words[i]}
-                  pct={pct[i]}
-                  onChange={(p) => setDim(i, p)}
-                />
-              ))}
-              <button
-                type="button"
-                onClick={() => setDone(true)}
-                className="mt-[38px] w-full rounded-[16px] border-[1.5px] border-clay-soft bg-transparent p-4 font-sans text-[12px] font-semibold uppercase tracking-[0.16em] text-clay transition-colors hover:bg-sage/14"
-              >
-                Done
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-[26px]">
-              {dims.map((dim, i) => (
-                <div key={dim.label} className="flex items-center gap-[18px]">
-                  <span className="relative flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center">
-                    {/* constantly pulsing glow */}
-                    <span
-                      className="absolute inset-0 rounded-full blur-[5px]"
-                      style={{
-                        background: dim.core,
-                        animation: "floGlow 4s ease-in-out infinite",
-                        animationDelay: `${i * 1.3}s`,
-                      }}
-                    />
-                    <span
-                      className="relative h-4 w-4 rounded-full"
-                      style={{ background: dim.core }}
-                    />
-                  </span>
-                  <div>
-                    <div className="font-serif text-[22px] font-semibold leading-none text-ink">
-                      {dim.label}
-                    </div>
-                    <div className="mt-[3px] text-[13px] font-semibold text-clay">
-                      {words[i]}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+        <div className="mt-[14px] text-[14.5px] font-light text-ink-soft">
+          How are you feeling today?
         </div>
 
-        {done && (
-          <Link
-            href="/chat"
-            className="mt-auto block w-full rounded-[16px] border-[1.5px] border-olive bg-ink p-[17px] text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-paper transition-[transform,background-color] duration-300 hover:-translate-y-px hover:bg-olive"
-          >
-            Talk with Florence
-          </Link>
-        )}
+        <div className="flex flex-1 flex-col justify-center py-2">
+          <div className="flex flex-col gap-[30px]">
+            {dims.map((dim, i) => (
+              <Slider
+                key={dim.label}
+                label={dim.label}
+                word={words[i]}
+                pct={pct[i]}
+                onChange={(p) => setDim(i, p)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <Link
+          href="/chat"
+          className="mt-auto block w-full rounded-[16px] border-[1.5px] border-olive bg-ink p-[17px] text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-paper transition-[transform,background-color] duration-300 hover:-translate-y-px hover:bg-olive"
+        >
+          Talk with Florence
+        </Link>
       </div>
 
       <NavMenu />
