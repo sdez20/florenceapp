@@ -9,7 +9,8 @@ export type Profile = {
   language?: string;
   culture?: string;
   birthday?: string;
-  health?: string;
+  conditions?: string;
+  surgeries?: string;
   source?: string;
 };
 

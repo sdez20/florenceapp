@@ -115,8 +115,12 @@ export default function SettingsPage() {
             sub={<ProfileField field="culture" fallback="Not set yet" />}
           />
           <Row
-            k="Health"
-            sub={<ProfileField field="health" fallback="Nothing shared" />}
+            k="Conditions"
+            sub={<ProfileField field="conditions" fallback="Nothing shared" />}
+          />
+          <Row
+            k="Surgeries"
+            sub={<ProfileField field="surgeries" fallback="Nothing shared" />}
           />
           <Row
             k="Language"

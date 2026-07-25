@@ -71,7 +71,8 @@ export default function OnboardingPage() {
   const [region, setRegion] = useState("");
   const [culture, setCulture] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [health, setHealth] = useState("");
+  const [conditions, setConditions] = useState("");
+  const [surgeries, setSurgeries] = useState("");
 
   // She can't leave the region step until she has chosen one — a blank region
   // is never saved, so Florence is never left guessing her country.
@@ -91,7 +92,8 @@ export default function OnboardingPage() {
       language: "English",
       culture,
       birthday,
-      health,
+      conditions,
+      surgeries,
       source: sources[source].label,
     });
     router.push("/consent-gate");
@@ -167,16 +169,28 @@ export default function OnboardingPage() {
                   onChange={(e) => setBirthday(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="mb-[18px]">
                 <label className={fieldLabel}>
-                  Is there anything about your health Florence should know?
+                  Any ongoing conditions, illnesses, or diseases?
                 </label>
                 <textarea
-                  rows={3}
-                  placeholder="Any conditions, illnesses, surgeries, or physical challenges you'd like her to understand. Optional, and only what you're comfortable sharing."
-                  className={`${fieldInput} min-h-[92px] resize-none leading-[1.5]`}
-                  value={health}
-                  onChange={(e) => setHealth(e.target.value)}
+                  rows={2}
+                  placeholder="Anything ongoing you'd like Florence to understand. Optional."
+                  className={`${fieldInput} min-h-[64px] resize-none leading-[1.5]`}
+                  value={conditions}
+                  onChange={(e) => setConditions(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={fieldLabel}>
+                  Any surgeries or procedures?
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="Anything that shaped your body or health. Optional."
+                  className={`${fieldInput} min-h-[64px] resize-none leading-[1.5]`}
+                  value={surgeries}
+                  onChange={(e) => setSurgeries(e.target.value)}
                 />
               </div>
             </>

@@ -19,7 +19,8 @@ type Profile = {
   language?: string;
   culture?: string;
   foodPreferences?: string;
-  health?: string;
+  conditions?: string;
+  surgeries?: string;
 };
 
 // Always present, framing the knowledge files and enforcing the non-negotiable
@@ -49,16 +50,27 @@ function profileBlock(profile?: Profile): string {
   if (profile.region) lines.push(`Region: ${profile.region}`);
   if (profile.culture) lines.push(`Culture or heritage: ${profile.culture}`);
   if (profile.foodPreferences) lines.push(`Food preferences: ${profile.foodPreferences}`);
-  if (profile.health) lines.push(`Health context she shared: ${profile.health}`);
+  if (profile.conditions) lines.push(`Ongoing conditions or illnesses she shared: ${profile.conditions}`);
+  if (profile.surgeries) lines.push(`Surgeries or procedures she shared: ${profile.surgeries}`);
   if (lines.length === 0) return "";
   // Health context is sensitive. Let it deepen her understanding, but never let
   // Florence diagnose it, fixate on it, or raise it unprompted.
-  const careNote = profile.health
-    ? " Hold the health context she shared with care: let it shape how you understand her and what you gently suggest, weave it in only when it is relevant, and never fixate on it or bring it up unprompted. You do not diagnose, interpret, treat, or dose anything for it; you explain and support the holistic foundations and route the medical side to her clinician."
-    : "";
+  const careNote =
+    profile.conditions || profile.surgeries
+      ? " Hold the health she shared with care: let it shape how you understand her and what you gently suggest, weave it in only when it is relevant, and never fixate on it or bring it up unprompted. You do not diagnose, interpret, treat, or dose anything for it; you explain and support the holistic foundations and route the medical side to her clinician."
+      : "";
   return `What you already know about her. Use it; never ask her what this already tells you, and route any region-specific support to her region.${careNote}\n${lines.join(
     "\n",
   )}`;
+}
+
+// When Florence suggests foods, she starts from the woman's own culture and only
+// then offers to explore other cultures' foods, so her nourishment is rooted in
+// what she grew up with and can find near her.
+function foodCultureBlock(profile?: Profile): string {
+  const culture = profile?.culture?.trim();
+  const home = culture ? `her own culture (${culture})` : "her own culture and heritage";
+  return `Whenever you suggest specific foods, meals, or ingredients for her to eat, begin with nourishing foods from ${home}: name real dishes and ingredients from her own tradition, the foods she likely grew up with and can find near her, and let them be the heart of what you offer. Only after that, near the end, gently ask whether she would also like to explore nourishing foods from any other culture. Never lead with foods from a culture that is not her own. If any sign of disordered eating is present, the eating-disorder safety rule takes precedence and you withhold food specifics regardless.`;
 }
 
 // Always present. Emergency numbers and crisis lines are country-specific, and a
@@ -137,6 +149,8 @@ export async function POST(req: Request) {
   // volatile blocks (focus weighting, her profile) come after the cache breakpoint
   if (focus) system.push({ type: "text", text: focus });
   if (profileText) system.push({ type: "text", text: profileText });
+  // How she suggests foods: culture-first, then offer other cultures.
+  system.push({ type: "text", text: foodCultureBlock(body.profile) });
   // Region safety is always sent, whether or not she has a profile yet.
   system.push({ type: "text", text: regionSafetyBlock(body.profile) });
 
