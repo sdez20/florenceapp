@@ -19,6 +19,7 @@ type Profile = {
   language?: string;
   culture?: string;
   foodPreferences?: string;
+  health?: string;
 };
 
 // Always present, framing the knowledge files and enforcing the non-negotiable
@@ -48,8 +49,14 @@ function profileBlock(profile?: Profile): string {
   if (profile.region) lines.push(`Region: ${profile.region}`);
   if (profile.culture) lines.push(`Culture or heritage: ${profile.culture}`);
   if (profile.foodPreferences) lines.push(`Food preferences: ${profile.foodPreferences}`);
+  if (profile.health) lines.push(`Health context she shared: ${profile.health}`);
   if (lines.length === 0) return "";
-  return `What you already know about her. Use it; never ask her what this already tells you, and route any region-specific support to her region.\n${lines.join(
+  // Health context is sensitive. Let it deepen her understanding, but never let
+  // Florence diagnose it, fixate on it, or raise it unprompted.
+  const careNote = profile.health
+    ? " Hold the health context she shared with care: let it shape how you understand her and what you gently suggest, weave it in only when it is relevant, and never fixate on it or bring it up unprompted. You do not diagnose, interpret, treat, or dose anything for it; you explain and support the holistic foundations and route the medical side to her clinician."
+    : "";
+  return `What you already know about her. Use it; never ask her what this already tells you, and route any region-specific support to her region.${careNote}\n${lines.join(
     "\n",
   )}`;
 }

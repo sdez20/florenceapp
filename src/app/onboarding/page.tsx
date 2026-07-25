@@ -71,6 +71,7 @@ export default function OnboardingPage() {
   const [region, setRegion] = useState("");
   const [culture, setCulture] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [health, setHealth] = useState("");
 
   // She can't leave the region step until she has chosen one — a blank region
   // is never saved, so Florence is never left guessing her country.
@@ -90,6 +91,7 @@ export default function OnboardingPage() {
       language: "English",
       culture,
       birthday,
+      health,
       source: sources[source].label,
     });
     router.push("/consent-gate");
@@ -155,7 +157,7 @@ export default function OnboardingPage() {
                   inputClassName={fieldInput}
                 />
               </div>
-              <div>
+              <div className="mb-[18px]">
                 <label className={fieldLabel}>Your birthday</label>
                 <input
                   type="text"
@@ -163,6 +165,18 @@ export default function OnboardingPage() {
                   className={fieldInput}
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={fieldLabel}>
+                  Is there anything about your health Florence should know?
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Any conditions, illnesses, surgeries, or physical challenges you'd like her to understand. Optional, and only what you're comfortable sharing."
+                  className={`${fieldInput} min-h-[92px] resize-none leading-[1.5]`}
+                  value={health}
+                  onChange={(e) => setHealth(e.target.value)}
                 />
               </div>
             </>
