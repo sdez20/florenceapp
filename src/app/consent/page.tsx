@@ -19,8 +19,7 @@ export default function ConsentPage() {
           Before we begin
         </h1>
         <p className="mb-6 max-w-[34ch] text-[14px] font-light leading-[1.6] text-ink-soft">
-          Florence is a private place. Before you share anything, here is how
-          your privacy is protected.
+          Here&apos;s how your privacy is protected.
         </p>
 
         <div className="flex flex-1 flex-col overflow-y-auto pr-1.5">
