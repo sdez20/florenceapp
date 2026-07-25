@@ -2,6 +2,14 @@ import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import { cta, eyebrow } from "@/components/ui";
 
+const points = [
+  "Florence saves your email so you can sign in, some basic information about you, and your past conversations so you can revisit them anytime.",
+  "She never tracks your weight, calories, food, or measurements.",
+  "Your information is never sold, shared for advertising, or handed to anyone. It's only used for Florence to help you.",
+  "You can view or download your information anytime, or delete your account whenever you want. Deleting it erases everything.",
+  "Everything you share is encrypted and protected.",
+];
+
 export default function ConsentPage() {
   return (
     <PhoneFrame>
@@ -15,20 +23,21 @@ export default function ConsentPage() {
           your privacy is protected.
         </p>
 
-        <div className="flex flex-1 flex-col gap-[18px] overflow-y-auto pr-1.5">
-          <p className="text-[13.5px] font-light leading-[1.62] text-ink-soft">
-            Florence saves your email so you can sign in, some basic information
-            about you, and your past conversations so you can revisit them
-            anytime. She never tracks your weight, calories, food, or
-            measurements. Your information is never sold, shared for advertising,
-            or handed to anyone. It&apos;s only used for Florence to help you. You
-            can view or download your information anytime, or delete your account
-            whenever you want. Deleting it erases everything. Everything you
-            share is encrypted and protected.
-          </p>
+        <div className="flex flex-1 flex-col overflow-y-auto pr-1.5">
+          <ul className="flex flex-col gap-[15px]">
+            {points.map((point) => (
+              <li
+                key={point}
+                className="flex gap-[11px] text-[13.5px] font-light leading-[1.6] text-ink-soft"
+              >
+                <span className="mt-[7px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-clay-soft" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
           <a
             href="#"
-            className="text-[13px] font-semibold text-clay no-underline"
+            className="mt-[18px] text-[13px] font-semibold text-clay no-underline"
           >
             Read the full privacy policy &rsaquo;
           </a>
