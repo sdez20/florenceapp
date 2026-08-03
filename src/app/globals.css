@@ -14,6 +14,7 @@
   --ink: #1f2a22;
   --ink-soft: #7a7a6c;
   --sand: #ffffff; /* desktop backdrop — also white now */
+  --forest: #475333; /* forest green — cycle calendar selected date + accents */
 }
 
 @theme inline {
@@ -28,6 +29,7 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-sand: var(--sand);
+  --color-forest: var(--forest);
 
   /* Fonts — usable as font-serif / font-sans */
   --font-serif: var(--font-cormorant);
@@ -52,3 +54,47 @@ body {
     opacity: 0.6;
   }
 }
+
+/* ---- Cycle calendar (react-day-picker), themed to the app ---- */
+.flo-cal .rdp-root {
+  --rdp-accent-color: var(--forest);            /* selected date — forest green */
+  --rdp-accent-background-color: var(--blush);   /* soft neutral hover/range */
+  --rdp-today-color: var(--sage);                /* today marked in sage */
+  --rdp-day_button-border-radius: 12px;          /* soft, rounded */
+  --rdp-day_button-border: 1.5px solid transparent;
+  --rdp-day_button-width: 40px;
+  --rdp-day_button-height: 40px;
+  --rdp-selected-border: 1.5px solid var(--forest);
+  --rdp-outside-opacity: 0.35;
+  --rdp-weekday-opacity: 0.6;
+  font-family: var(--font-figtree), sans-serif;
+  color: var(--ink);
+  margin: 0 auto;
+}
+.flo-cal .rdp-month_caption {
+  font-family: var(--font-cormorant), serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink);
+  padding-left: 4px;
+}
+.flo-cal .rdp-weekday {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.flo-cal .rdp-day_button:hover:not([disabled]) {
+  background: var(--blush);
+}
+.flo-cal .rdp-selected .rdp-day_button {
+  background: var(--forest);
+  color: #fff;
+  border-color: var(--forest);
+}
+.flo-cal .rdp-today:not(.rdp-selected) .rdp-day_button {
+  color: var(--sage);
+  font-weight: 600;
+}
+.flo-cal .rdp-chevron { fill: var(--forest); }
+.flo-cal .rdp-day_button { transition: background-color 0.15s ease; }

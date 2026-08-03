@@ -36,7 +36,7 @@ export const domains: Domain[] = [
     slug: "mental-emotional",
     title: "Mental & emotional",
     cardSub: "The inner weather you carry",
-    desc: "This is Florence's deepest ground. Drawing on integrative psychology, relational intelligence, and narrative therapy, she helps you understand what you're feeling and the story underneath it.",
+    desc: "This is Florence's deepest ground. Drawing on integrative psychology, relational intelligence, and self-image work, she helps you understand what you're feeling and the story underneath it.",
   },
   {
     slug: "intimacy-sexuality",
