@@ -5,6 +5,7 @@ import NavMenu from "@/components/NavMenu";
 import BackLink from "@/components/BackLink";
 import StoredName from "@/components/StoredName";
 import ProfileField from "@/components/ProfileField";
+import SignOutRow from "@/components/SignOutRow";
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -131,7 +132,7 @@ export default function SettingsPage() {
         <SectionLabel>Your account</SectionLabel>
         <div className="flex flex-col gap-[10px]">
           <Row k="Privacy & data" sub="See, export, or delete your data" />
-          <Row k="Sign out" href="/" danger />
+          <SignOutRow />
         </div>
 
         <SectionLabel>Legal &amp; safety</SectionLabel>

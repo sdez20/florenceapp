@@ -19,6 +19,14 @@ function capitalizeFirst(name: string): string {
   return trimmed ? trimmed.charAt(0).toUpperCase() + trimmed.slice(1) : trimmed;
 }
 
+export function clearStoredName() {
+  try {
+    localStorage.removeItem(NAME_KEY);
+  } catch {
+    // localStorage unavailable — ignore.
+  }
+}
+
 export function getStoredName(): string {
   try {
     return capitalizeFirst(localStorage.getItem(NAME_KEY) ?? "");
