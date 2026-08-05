@@ -19,19 +19,36 @@ export default function Home() {
       setChecked(true);
       return;
     }
+    let done = false;
+    const finish = () => {
+      if (!done) {
+        done = true;
+        setChecked(true);
+      }
+    };
+    // Never let a slow or unreachable Supabase hold the welcome screen hostage:
+    // reveal the buttons after 2.5s no matter what.
+    const timer = setTimeout(finish, 2500);
     createClient()
       .auth.getUser()
       .then(({ data }) => {
+        if (done) return;
         if (data.user) {
-          // Recognized: bring her back to her space, name intact.
+          done = true;
+          clearTimeout(timer);
           const name = data.user.user_metadata?.name as string | undefined;
           if (name) setStoredName(name);
           router.replace("/today");
         } else {
-          setChecked(true);
+          clearTimeout(timer);
+          finish();
         }
       })
-      .catch(() => setChecked(true));
+      .catch(() => {
+        clearTimeout(timer);
+        finish();
+      });
+    return () => clearTimeout(timer);
   }, [router]);
 
   return (

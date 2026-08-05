@@ -13,6 +13,12 @@ export async function proxy(request: NextRequest) {
   // If Supabase isn't configured yet, do nothing and let the app run.
   if (!url || !anonKey) return response;
 
+  // Fast path: a logged-out visitor has no Supabase auth cookie, so there is no
+  // session to refresh. Skip the network round-trip entirely — this keeps the
+  // whole signed-out flow (welcome, consent, signup, onboarding) snappy.
+  const hasAuthCookie = request.cookies.getAll().some((c) => c.name.startsWith("sb-"));
+  if (!hasAuthCookie) return response;
+
   const supabase = createServerClient(url, anonKey, {
     cookies: {
       getAll() {

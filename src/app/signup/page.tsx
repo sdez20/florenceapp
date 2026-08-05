@@ -37,14 +37,36 @@ export default function SignupPage() {
     // (bcrypt) — we never store or see the plain password. Her name is saved on
     // the auth user's metadata. If email confirmation is on, Supabase emails a
     // verification link that lands on /auth/confirm.
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        data: { name: name.trim() },
-        emailRedirectTo: `${window.location.origin}/auth/confirm?next=/onboarding`,
-      },
-    });
+    //
+    // Guard against a hung network call (an unreachable/misconfigured Supabase
+    // URL can otherwise spin for minutes): give up after 20s with a clear message
+    // instead of leaving her staring at a spinner.
+    const timeout = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), 20000),
+    );
+    let data: Awaited<ReturnType<typeof supabase.auth.signUp>>["data"];
+    let signUpError: Awaited<ReturnType<typeof supabase.auth.signUp>>["error"];
+    try {
+      const res = await Promise.race([
+        supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: {
+            data: { name: name.trim() },
+            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/onboarding`,
+          },
+        }),
+        timeout,
+      ]);
+      data = res.data;
+      signUpError = res.error;
+    } catch {
+      setBusy(false);
+      setError(
+        "This is taking longer than usual, so we stopped waiting. Check your connection and try again. If you already tapped once, look for a verification email before retrying.",
+      );
+      return;
+    }
     setBusy(false);
 
     if (signUpError) {
@@ -96,7 +118,7 @@ export default function SignupPage() {
 
         <div className="flex flex-1 flex-col justify-center py-[18px]">
           <p className={`${eyebrow} mb-[14px] tracking-[0.3em]`}>Florence</p>
-          <h1 className="mb-11 font-serif text-[38px] font-medium leading-[1.08] text-ink">
+          <h1 className="mb-11 font-serif text-[32px] font-medium leading-[1.08] text-ink">
             Let&apos;s set up your space.
           </h1>
 
