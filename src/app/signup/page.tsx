@@ -7,7 +7,7 @@ import PhoneFrame from "@/components/PhoneFrame";
 import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
 import { setStoredName } from "@/lib/user";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, authConfigured } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full rounded-[14px] border-[1.5px] border-olive/22 bg-transparent px-[18px] py-4 font-sans text-[15px] text-ink transition-colors placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -31,23 +31,28 @@ export default function SignupPage() {
       setError("Please use a password of at least 8 characters.");
       return;
     }
+    // If the Supabase keys aren't in the build, createClient() would throw and
+    // freeze the spinner. Fail clearly up front instead.
+    if (!authConfigured()) {
+      setError(
+        "Accounts aren't connected yet — the Supabase keys are missing from this build (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY). Add them and rebuild.",
+      );
+      return;
+    }
+
     setBusy(true);
-    const supabase = createClient();
-    // Supabase Auth creates the user and securely hashes the password server-side
-    // (bcrypt) — we never store or see the plain password. Her name is saved on
-    // the auth user's metadata. If email confirmation is on, Supabase emails a
-    // verification link that lands on /auth/confirm.
-    //
-    // Guard against a hung network call (an unreachable/misconfigured Supabase
-    // URL can otherwise spin for minutes): give up after 20s with a clear message
-    // instead of leaving her staring at a spinner.
-    const timeout = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("timeout")), 20000),
-    );
-    let data: Awaited<ReturnType<typeof supabase.auth.signUp>>["data"];
-    let signUpError: Awaited<ReturnType<typeof supabase.auth.signUp>>["error"];
     try {
-      const res = await Promise.race([
+      const supabase = createClient();
+      // Supabase Auth creates the user and securely hashes the password
+      // server-side (bcrypt) — we never store or see the plain password. Her name
+      // is saved on the auth user's metadata. If email confirmation is on,
+      // Supabase emails a link that lands on /auth/confirm.
+      //
+      // Race against a 20s timeout so an unreachable Supabase fails fast.
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 20000),
+      );
+      const { data, error: signUpError } = await Promise.race([
         supabase.auth.signUp({
           email: email.trim(),
           password,
@@ -58,33 +63,34 @@ export default function SignupPage() {
         }),
         timeout,
       ]);
-      data = res.data;
-      signUpError = res.error;
-    } catch {
-      setBusy(false);
+
+      if (signUpError) {
+        setError(signUpError.message);
+        return;
+      }
+
+      setStoredName(name.trim());
+
+      // Email confirmation on: Supabase returns a user but no session — she must
+      // click the emailed link first.
+      if (data.user && !data.session) {
+        setSentTo(email.trim());
+        return;
+      }
+
+      // Confirmation off: she's signed in immediately, go straight in.
+      router.push("/onboarding");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
       setError(
-        "This is taking longer than usual, so we stopped waiting. Check your connection and try again. If you already tapped once, look for a verification email before retrying.",
+        msg === "timeout"
+          ? "This took too long, so we stopped waiting. Check your connection and that Supabase is reachable, then try again. If you tapped once already, look for a verification email before retrying."
+          : `We couldn't create your account: ${msg}`,
       );
-      return;
+    } finally {
+      // Runs no matter what, so the spinner can never get stuck.
+      setBusy(false);
     }
-    setBusy(false);
-
-    if (signUpError) {
-      setError(signUpError.message);
-      return;
-    }
-
-    setStoredName(name.trim());
-
-    // When email confirmation is required, Supabase returns a user but no active
-    // session — she must click the emailed link first.
-    if (data.user && !data.session) {
-      setSentTo(email.trim());
-      return;
-    }
-
-    // Confirmation disabled: she's signed in immediately, go straight in.
-    router.push("/onboarding");
   };
 
   if (sentTo) {

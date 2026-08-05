@@ -7,7 +7,7 @@ import PhoneFrame from "@/components/PhoneFrame";
 import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
 import { setStoredName } from "@/lib/user";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, authConfigured } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full rounded-[14px] border-[1.5px] border-olive/22 bg-transparent px-[18px] py-4 font-sans text-[15px] text-ink transition-colors placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -30,29 +30,49 @@ function SignInForm() {
       setError("Please enter your email and password.");
       return;
     }
-    setBusy(true);
-    const supabase = createClient();
-    // Checks the email + password against Supabase Auth. The password is verified
-    // against the stored hash server-side; a match returns a real session.
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
-    setBusy(false);
-
-    if (signInError) {
+    if (!authConfigured()) {
       setError(
-        signInError.message === "Invalid login credentials"
-          ? "That email and password don't match. Please try again."
-          : signInError.message,
+        "Sign-in isn't connected yet — the Supabase keys are missing from this build.",
       );
       return;
     }
 
-    // Keep the rest of the app working: mirror her saved name into local state.
-    const savedName = (data.user?.user_metadata?.name as string) ?? "";
-    if (savedName) setStoredName(savedName);
-    router.push("/today");
+    setBusy(true);
+    try {
+      const supabase = createClient();
+      // Checks the email + password against Supabase Auth. The password is
+      // verified against the stored hash server-side; a match returns a session.
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 20000),
+      );
+      const { data, error: signInError } = await Promise.race([
+        supabase.auth.signInWithPassword({ email: email.trim(), password }),
+        timeout,
+      ]);
+
+      if (signInError) {
+        setError(
+          signInError.message === "Invalid login credentials"
+            ? "That email and password don't match. Please try again."
+            : signInError.message,
+        );
+        return;
+      }
+
+      // Keep the rest of the app working: mirror her saved name into local state.
+      const savedName = (data.user?.user_metadata?.name as string) ?? "";
+      if (savedName) setStoredName(savedName);
+      router.push("/today");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(
+        msg === "timeout"
+          ? "This took too long, so we stopped waiting. Check your connection and try again."
+          : `We couldn't sign you in: ${msg}`,
+      );
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (

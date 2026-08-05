@@ -5,7 +5,7 @@ import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, authConfigured } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full rounded-[14px] border-[1.5px] border-olive/22 bg-transparent px-[18px] py-4 font-sans text-[15px] text-ink transition-colors placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -22,21 +22,31 @@ export default function ForgotPasswordPage() {
       setError("Please enter your email.");
       return;
     }
-    setBusy(true);
-    const supabase = createClient();
-    // Sends a secure, single-use reset link. It routes through /auth/confirm,
-    // which establishes a session and forwards her to /reset-password. We always
-    // show the same confirmation, so this never reveals whether an email exists.
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email.trim(),
-      { redirectTo: `${window.location.origin}/auth/confirm?next=/reset-password` },
-    );
-    setBusy(false);
-    if (resetError) {
-      setError(resetError.message);
+    if (!authConfigured()) {
+      setError("Password reset isn't connected yet — the Supabase keys are missing.");
       return;
     }
-    setSent(true);
+    setBusy(true);
+    try {
+      const supabase = createClient();
+      // Sends a secure, single-use reset link. It routes through /auth/confirm,
+      // which establishes a session and forwards her to /reset-password. We
+      // always show the same confirmation, so this never reveals whether an
+      // email exists.
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email.trim(),
+        { redirectTo: `${window.location.origin}/auth/confirm?next=/reset-password` },
+      );
+      if (resetError) {
+        setError(resetError.message);
+        return;
+      }
+      setSent(true);
+    } catch (e) {
+      setError(`We couldn't send the reset link: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (

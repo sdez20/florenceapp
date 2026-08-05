@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PhoneFrame from "@/components/PhoneFrame";
 import { cta, eyebrow } from "@/components/ui";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, authConfigured } from "@/lib/supabase/client";
 
 const inputClass =
   "w-full rounded-[14px] border-[1.5px] border-olive/22 bg-transparent px-[18px] py-4 font-sans text-[15px] text-ink transition-colors placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -26,17 +26,26 @@ export default function ResetPasswordPage() {
       setError("Those passwords don't match.");
       return;
     }
-    setBusy(true);
-    const supabase = createClient();
-    // The reset link already established a session via /auth/confirm, so this
-    // sets the new password on the signed-in user. Supabase re-hashes it.
-    const { error: updateError } = await supabase.auth.updateUser({ password });
-    setBusy(false);
-    if (updateError) {
-      setError(updateError.message);
+    if (!authConfigured()) {
+      setError("Password reset isn't connected yet — the Supabase keys are missing.");
       return;
     }
-    router.push("/today");
+    setBusy(true);
+    try {
+      const supabase = createClient();
+      // The reset link already established a session via /auth/confirm, so this
+      // sets the new password on the signed-in user. Supabase re-hashes it.
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) {
+        setError(updateError.message);
+        return;
+      }
+      router.push("/today");
+    } catch (e) {
+      setError(`We couldn't update your password: ${e instanceof Error ? e.message : String(e)}`);
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
