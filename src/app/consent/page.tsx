@@ -16,7 +16,7 @@ export default function ConsentPage() {
       <div className="flex flex-1 flex-col overflow-hidden px-8 pt-16">
         <p className={`${eyebrow} mb-4 tracking-[0.3em]`}>Florence</p>
 
-        <div className="flex flex-1 flex-col overflow-y-auto pr-1.5">
+        <div className="flex flex-1 flex-col justify-center overflow-y-auto pr-1.5">
           <ul className="flex flex-col gap-[15px]">
             {points.map((point) => (
               <li
