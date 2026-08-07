@@ -6,6 +6,7 @@ import BackLink from "@/components/BackLink";
 import StoredName from "@/components/StoredName";
 import ProfileField from "@/components/ProfileField";
 import SignOutRow from "@/components/SignOutRow";
+import DailyMessageSetting from "@/components/DailyMessageSetting";
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -128,6 +129,9 @@ export default function SettingsPage() {
             sub={<ProfileField field="language" fallback="English" />}
           />
         </div>
+
+        <SectionLabel>Daily message from Florence</SectionLabel>
+        <DailyMessageSetting />
 
         <SectionLabel>Your account</SectionLabel>
         <div className="flex flex-col gap-[10px]">

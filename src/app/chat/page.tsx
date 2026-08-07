@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getStoredName, firstNameOf } from "@/lib/user";
 import { getProfile } from "@/lib/profile";
+import { setLastFocus } from "@/lib/focus-store";
 
 const focusOptions = [
   { label: "Mental and emotional wellbeing", d: "The inner weather you carry" },
@@ -164,6 +165,7 @@ export default function ChatPage() {
                   type="button"
                   onClick={() => {
                     setFocus(o.label);
+                    setLastFocus(o.label);
                     setOpen(false);
                   }}
                   className={`block w-full rounded-[11px] px-[14px] py-[13px] text-left font-serif text-[18px] font-medium text-ink transition-colors hover:bg-blush ${

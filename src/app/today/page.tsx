@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
+import DailyMessage from "@/components/DailyMessage";
 import { getStoredName, firstNameOf } from "@/lib/user";
 
 function formatDate(date: Date) {
@@ -77,6 +78,10 @@ export default function TodayPage() {
         </div>
         <div className="mt-[14px] text-[14.5px] font-light text-ink-soft">
           How are you feeling today?
+        </div>
+
+        <div className="mt-6">
+          <DailyMessage />
         </div>
 
         <div className="flex flex-1 flex-col justify-center py-2">
