@@ -5,6 +5,26 @@ import Link from "next/link";
 import { getStoredName, firstNameOf } from "@/lib/user";
 import { getProfile } from "@/lib/profile";
 import { setLastFocus } from "@/lib/focus-store";
+import { createClient, authConfigured } from "@/lib/supabase/client";
+
+// Best-effort: save the turn to Supabase so the daily message can remember what
+// she's been talking about. Only runs when she's signed in; never blocks chat.
+async function storeTurn(userText: string, assistantText: string, focus: string) {
+  if (!authConfigured() || !assistantText) return;
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from("messages").insert([
+      { role: "user", content: userText, focus },
+      { role: "assistant", content: assistantText, focus },
+    ]);
+  } catch {
+    // storage is best-effort; a failure must never affect the conversation
+  }
+}
 
 const focusOptions = [
   { label: "Mental and emotional wellbeing", d: "The inner weather you carry" },
@@ -44,6 +64,7 @@ export default function ChatPage() {
   const send = async () => {
     const text = draft.trim();
     if (!text || sending) return;
+    const userMessage = text;
 
     const nextThread: Message[] = [...thread, { who: "u", text }];
     setThread(nextThread);
@@ -97,6 +118,9 @@ export default function ChatPage() {
           copy[copy.length - 1] = { who: "f", text: "…" };
           return copy;
         });
+      } else {
+        // Persist the completed turn (her message + Florence's reply).
+        void storeTurn(userMessage, text, focus);
       }
     } catch {
       setThread((t) => [

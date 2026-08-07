@@ -10,7 +10,7 @@ const OPTS: { value: Frequency; label: string; sub: string }[] = [
 ];
 
 export default function DailyMessageSetting() {
-  const [freq, setFreq] = useState<Frequency>("daily");
+  const [freq, setFreq] = useState<Frequency>("few");
   useEffect(() => setFreq(getFrequency()), []);
 
   const pick = (f: Frequency) => {

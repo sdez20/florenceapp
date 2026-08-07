@@ -1,11 +1,34 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
 import DailyMessage from "@/components/DailyMessage";
 import { getStoredName, firstNameOf } from "@/lib/user";
+import { createClient, authConfigured } from "@/lib/supabase/client";
+
+// Best-effort: save today's check-in (qualitative feeling words, no scores) so
+// the daily message can reflect her logged patterns. Only when signed in.
+async function saveCheckin(words: string[]) {
+  if (!authConfigured()) return;
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+    const d = new Date();
+    const z = (n: number) => (n < 10 ? "0" + n : "" + n);
+    const day = `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`;
+    await supabase.from("checkins").upsert(
+      { user_id: user.id, day, mental: words[0], emotional: words[1], nutrition: words[2] },
+      { onConflict: "user_id,day" },
+    );
+  } catch {
+    // best-effort
+  }
+}
 
 function formatDate(date: Date) {
   return date.toLocaleDateString("en-GB", {
@@ -35,6 +58,7 @@ function wordFor(i: number, p: number) {
 }
 
 export default function TodayPage() {
+  const router = useRouter();
   const [pct, setPct] = useState(initialPct);
   const [words, setWords] = useState(initialWords);
 
@@ -98,12 +122,16 @@ export default function TodayPage() {
           </div>
         </div>
 
-        <Link
-          href="/chat"
+        <button
+          type="button"
+          onClick={() => {
+            void saveCheckin(words);
+            router.push("/chat");
+          }}
           className="mt-auto block w-full rounded-[16px] border-[1.5px] border-olive bg-ink p-[17px] text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-paper transition-[transform,background-color] duration-300 hover:-translate-y-px hover:bg-olive"
         >
           Talk with Florence
-        </Link>
+        </button>
       </div>
 
       <NavMenu />

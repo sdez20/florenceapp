@@ -41,7 +41,8 @@ export function saveDailyState(update: DailyState) {
 }
 
 export function getFrequency(): Frequency {
-  return getDailyState().frequency ?? "daily";
+  // Default to "a few times a week" — gentle, not every day.
+  return getDailyState().frequency ?? "few";
 }
 
 export function today(): string {
@@ -58,7 +59,7 @@ export function cachedMessageForToday(): string | null {
  *  maximum. Never true when off, never more than once per calendar day. */
 export function isDueToday(): boolean {
   const s = getDailyState();
-  const freq = s.frequency ?? "daily";
+  const freq = s.frequency ?? "few";
   if (freq === "off") return false;
   const t = todayStr();
   if (s.lastShown === t) return false; // one per day maximum
