@@ -62,7 +62,7 @@ function SignInForm() {
       // Keep the rest of the app working: mirror her saved name into local state.
       const savedName = (data.user?.user_metadata?.name as string) ?? "";
       if (savedName) setStoredName(savedName);
-      router.push("/today");
+      router.push("/dashboard");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(

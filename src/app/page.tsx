@@ -38,7 +38,7 @@ export default function Home() {
           clearTimeout(timer);
           const name = data.user.user_metadata?.name as string | undefined;
           if (name) setStoredName(name);
-          router.replace("/today");
+          router.replace("/dashboard");
         } else {
           clearTimeout(timer);
           finish();

@@ -50,7 +50,7 @@ export default function ConsentGatePage() {
 
   // Shown once. If she already agreed to the current versions, skip straight in.
   useEffect(() => {
-    if (hasValidConsent()) router.replace("/today");
+    if (hasValidConsent()) router.replace("/dashboard");
     else setReady(true);
   }, [router]);
 
@@ -66,7 +66,7 @@ export default function ConsentGatePage() {
       privacyVersion: PRIVACY_VERSION,
       agreedAt: new Date().toISOString(),
     });
-    router.replace("/today");
+    router.replace("/dashboard");
   };
 
   if (!ready) return null;

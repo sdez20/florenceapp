@@ -55,7 +55,7 @@ export default function NotesPage() {
     <PhoneFrame>
       <div className="flex flex-1 flex-col overflow-y-auto px-[30px] pb-5 pt-14">
         <div className="flex items-center gap-[14px]">
-          <BackLink href="/today" />
+          <BackLink href="/dashboard" />
           <span className="font-serif text-[32px] font-semibold text-ink">
             Today&apos;s notes
           </span>

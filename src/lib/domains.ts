@@ -60,7 +60,7 @@ export const domains: Domain[] = [
     slug: "this-season",
     title: "This season of life",
     cardSub: "Where your body and life are now",
-    desc: "Your body moves through seasons your whole life, and most of them no one prepared you for. The cycle, trying to conceive, pregnancy, the years after birth, perimenopause, menopause and everything past it. Florence knows the season you're in and what it's actually doing to you, and she meets you inside it.",
+    desc: "Your body moves through seasons your whole life, and most of them no one prepared you for. The cycle, trying to conceive, pregnancy, the years after birth, and perimenopause. Florence knows the season you're in and what it's actually doing to you, and she meets you inside it.",
   },
 ];
 

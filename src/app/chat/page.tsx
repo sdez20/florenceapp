@@ -138,7 +138,7 @@ export default function ChatPage() {
         {/* header */}
         <div className="flex items-center gap-[14px] bg-paper px-[26px] pb-4 pt-[54px]">
           <Link
-            href="/today"
+            href="/dashboard"
             aria-label="Go back"
             className="text-[22px] font-light leading-none text-ink-soft no-underline"
           >

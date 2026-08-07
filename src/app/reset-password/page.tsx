@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
         setError(updateError.message);
         return;
       }
-      router.push("/today");
+      router.push("/dashboard");
     } catch (e) {
       setError(`We couldn't update your password: ${e instanceof Error ? e.message : String(e)}`);
     } finally {

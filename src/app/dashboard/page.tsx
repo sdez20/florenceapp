@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import PhoneFrame from "@/components/PhoneFrame";
 import NavMenu from "@/components/NavMenu";
+import DailyMessage from "@/components/DailyMessage";
 import { domains } from "@/lib/domains";
 import { getProfile } from "@/lib/profile";
 import { getCycle } from "@/lib/cycle-store";
@@ -50,6 +51,14 @@ export default function DashboardPage() {
         <h1 className="mb-5 font-serif text-[30px] font-medium leading-[1.1] text-ink">
           {firstName ? `Hello, ${firstName}` : "Hello"}
         </h1>
+
+        {/* Clear way into the conversation */}
+        <Link
+          href="/chat"
+          className="mb-5 block w-full rounded-[16px] bg-ink py-4 text-center font-sans text-[12px] font-semibold uppercase tracking-[0.18em] text-paper no-underline transition-colors hover:bg-olive"
+        >
+          Talk with Florence
+        </Link>
 
         {/* Eating for your phase — pulled from the cultural food maps */}
         <Link
@@ -115,6 +124,8 @@ export default function DashboardPage() {
       </div>
 
       <NavMenu />
+      {/* Florence's daily message as a closeable pop-up over the dashboard */}
+      <DailyMessage />
     </PhoneFrame>
   );
 }

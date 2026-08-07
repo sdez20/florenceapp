@@ -13,7 +13,6 @@ const seasons = [
   { label: "Pregnant", d: "Carrying, in any trimester" },
   { label: "Postpartum", d: "The months and year after birth" },
   { label: "Perimenopause", d: "The change, beginning" },
-  { label: "Menopause & after", d: "Through and beyond" },
 ];
 
 const sources = [

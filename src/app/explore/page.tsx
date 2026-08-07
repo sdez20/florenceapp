@@ -9,7 +9,7 @@ export default function ExplorePage() {
     <PhoneFrame>
       <div className="flex flex-1 flex-col overflow-y-auto px-[30px] pb-4 pt-14">
         <div className="mb-1.5 flex items-center gap-[13px]">
-          <BackLink href="/today" />
+          <BackLink href="/dashboard" />
           <span className="font-serif text-[32px] font-semibold text-ink">
             Explore
           </span>
