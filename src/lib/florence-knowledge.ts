@@ -30,6 +30,8 @@ export const DEEP_DOCS = [
   "14-holistic-endocrinology-DEEP.md",
   "15-womens-hormonal-health-DEEP.md",
   "16-desire-sexuality-DEEP.md",
+  "17-gut-health-DEEP.md",
+  "18-cultural-foodways-DEEP.md",
   "SOURCES.md",
 ];
 
