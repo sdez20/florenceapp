@@ -1,5 +1,5 @@
 import type Anthropic from "@anthropic-ai/sdk";
-import { focusNote } from "@/lib/florence-knowledge";
+import { focusNote, CULTURAL_FOODWAYS_CUE } from "@/lib/florence-knowledge";
 import { emergencyFor } from "@/lib/emergency";
 
 // The shared system-prompt builder for anything Florence generates — the chat
@@ -106,6 +106,7 @@ export function buildSystemBlocks(opts: {
   ];
   const focusText = focusNote(focus);
   if (focusText) system.push({ type: "text", text: focusText });
+  system.push({ type: "text", text: CULTURAL_FOODWAYS_CUE });
   const profileText = profileBlock(profile);
   if (profileText) system.push({ type: "text", text: profileText });
   const skin = skinHealthBlock(focus);

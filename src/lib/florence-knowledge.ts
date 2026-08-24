@@ -43,14 +43,35 @@ export const DEEP_DOCS = [
 export const FOCUS_TO_PRIMARY: Record<string, string[]> = {
   "Mental and emotional wellbeing": ["01-mental-emotional-wellbeing-DEEP.md"],
   "Relational intelligence": ["02-relational-intelligence-DEEP.md"],
-  "Holistic nutrition": ["03-holistic-nutrition-DEEP.md", "13-food-and-body-DEEP.md"],
+  "Holistic nutrition": [
+    "03-holistic-nutrition-DEEP.md",
+    "13-food-and-body-DEEP.md",
+    "17-gut-health-DEEP.md",
+    "18-cultural-foodways-DEEP.md",
+  ],
   "Skin health": ["04-skin-health-DEEP.md"],
   "Stress and the nervous system": ["05-stress-and-nervous-system-DEEP.md"],
   Boundaries: ["06-boundaries-DEEP.md"],
-  "This season of life": ["07-this-season-of-life-DEEP.md"],
+  "This season of life": [
+    "07-this-season-of-life-DEEP.md",
+    "18-cultural-foodways-DEEP.md",
+  ],
   "Intimacy and desire": ["16-desire-sexuality-DEEP.md"],
   "Just talk": [],
 };
+
+/**
+ * Always present, independent of the chosen focus. Whenever a woman mentions her
+ * background or heritage, names a dish or an ingredient, or says she has been told
+ * to cut a food out, lean on 18-cultural-foodways (and the food-and-body layer)
+ * even if her focus is something else.
+ */
+export const CULTURAL_FOODWAYS_CUE =
+  "Independent of any chosen focus: whenever she mentions her background or heritage, " +
+  "names a specific dish or ingredient, or says she has been told to cut a food out, " +
+  "weight 18-cultural-foodways-DEEP heavily and read it alongside 13-food-and-body and " +
+  "17-gut-health. Never strip a food from its culture; if any sign of disordered eating " +
+  "appears, the carve-out in 13 governs and overrides this cue.";
 
 async function readDoc(file: string): Promise<string> {
   return fs.readFile(path.join(KB_DIR, file), "utf8");
