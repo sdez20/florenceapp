@@ -58,7 +58,7 @@ export default function SignupPage() {
           password,
           options: {
             data: { name: name.trim() },
-            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/onboarding`,
+            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/dashboard`,
           },
         }),
         timeout,
@@ -79,7 +79,7 @@ export default function SignupPage() {
       }
 
       // Confirmation off: she's signed in immediately, go straight in.
-      router.push("/onboarding");
+      router.push("/dashboard");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(
