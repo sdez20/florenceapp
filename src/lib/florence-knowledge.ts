@@ -32,6 +32,10 @@ export const DEEP_DOCS = [
   "16-desire-sexuality-DEEP.md",
   "17-gut-health-DEEP.md",
   "18-cultural-foodways-DEEP.md",
+  "20-hormone-axes-and-estrobolome-DEEP.md",
+  "21-hormone-testing-literacy-DEEP.md",
+  "22-hormone-life-phases-DEEP.md",
+  "23-hormone-safety-routing-DEEP.md",
   "SOURCES.md",
 ];
 
