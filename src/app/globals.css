@@ -15,6 +15,12 @@
   --ink-soft: #7a7a6c;
   --sand: #ffffff; /* desktop backdrop — also white now */
   --forest: #475333; /* forest green — cycle calendar selected date + accents */
+
+  /* Font-family tokens — nothing hardcodes a font name; everything reads these.
+     --serif is the display face (Playfair Display), --body is the reading face
+     (Cormorant). Both fall back to Georgia then serif. */
+  --serif: var(--font-playfair), Georgia, serif;
+  --body: var(--font-cormorant), Georgia, serif;
 }
 
 @theme inline {
@@ -31,15 +37,37 @@
   --color-sand: var(--sand);
   --color-forest: var(--forest);
 
-  /* Fonts — usable as font-serif / font-sans */
-  --font-serif: var(--font-cormorant);
+  /* Fonts — usable as font-serif / font-body / font-sans utilities.
+     serif = Playfair Display (display), body = Cormorant (reading),
+     sans = Figtree (small-caps labels and buttons). */
+  --font-serif: var(--font-playfair);
+  --font-body: var(--font-cormorant);
   --font-sans: var(--font-figtree);
 }
 
 body {
   background: var(--sand);
   color: var(--ink);
-  font-family: var(--font-figtree), sans-serif;
+  /* Body copy is Cormorant at 15px — it needs the larger size to stay legible
+     on a phone. Small labels and buttons opt back out with font-sans. */
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+/* ---- Type scale. Bare headings read the display face and these sizes.
+   (Pages that set their own sizes with utilities still win by specificity.) ---- */
+h1 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.2; }
+h2 { font-family: var(--serif); font-weight: 400; font-size: 21px; line-height: 1.25; }
+h3 { font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.3; }
+
+/* The Florence wordmark — 17px, letterspaced. Reads the display face. */
+.wordmark {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
 }
 
 /* Constant soft glow for the check-in reflection dots */
@@ -72,7 +100,7 @@ body {
   margin: 0 auto;
 }
 .flo-cal .rdp-month_caption {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--serif);
   font-size: 1.25rem;
   font-weight: 500;
   color: var(--ink);
