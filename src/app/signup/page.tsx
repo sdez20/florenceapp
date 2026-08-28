@@ -8,6 +8,7 @@ import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
 import { setStoredName } from "@/lib/user";
 import { createClient, authConfigured } from "@/lib/supabase/client";
+import { siteUrl } from "@/lib/site-url";
 
 const inputClass =
   "w-full rounded-[14px] border-[1.5px] border-olive/22 bg-transparent px-[18px] py-4 font-sans text-[15px] text-ink transition-colors placeholder:text-ink-soft/55 focus:border-clay focus:outline-none";
@@ -58,7 +59,7 @@ export default function SignupPage() {
           password,
           options: {
             data: { name: name.trim() },
-            emailRedirectTo: `${window.location.origin}/auth/confirm?next=/dashboard`,
+            emailRedirectTo: `${siteUrl()}/auth/confirm?next=/dashboard`,
           },
         }),
         timeout,

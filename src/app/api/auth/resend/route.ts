@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { siteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
@@ -29,7 +30,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Please provide the email you signed up with." }, { status: 400 });
   }
 
-  const { origin } = new URL(request.url);
+  // Prefer the canonical production origin so the re-sent link never points at
+  // a preview URL; fall back to the request origin only in local dev.
+  const origin = siteUrl() || new URL(request.url).origin;
   const supabase = await createClient();
 
   const { error } = await supabase.auth.resend({
