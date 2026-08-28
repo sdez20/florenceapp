@@ -31,7 +31,7 @@ const figtree = Figtree({
 
 export const metadata: Metadata = {
   title: "Florence",
-  description: "Florence — a wellness companion for women.",
+  description: "Florence is a wellness companion for women.",
 };
 
 export default function RootLayout({

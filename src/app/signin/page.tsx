@@ -32,7 +32,7 @@ function SignInForm() {
     }
     if (!authConfigured()) {
       setError(
-        "Sign-in isn't connected yet — the Supabase keys are missing from this build.",
+        "Sign-in isn't connected yet. The Supabase keys are missing from this build.",
       );
       return;
     }

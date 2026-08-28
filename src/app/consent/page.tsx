@@ -4,7 +4,7 @@ import { cta, eyebrow } from "@/components/ui";
 
 const points = [
   "Florence saves your email so you can sign in, some basic information about you, including anything you choose to share about your health, and your past conversations so you can revisit them anytime.",
-  "She never tracks your weight, calories, food, or measurements.",
+  "Florence never tracks your weight, calories, food, or measurements.",
   "Your information is never sold, shared for advertising, or handed to anyone. It's only used for Florence to help you.",
   "You can view or download your information anytime, or delete your account whenever you want.",
   "Everything you share is encrypted and protected.",

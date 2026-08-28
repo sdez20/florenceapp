@@ -75,7 +75,7 @@ export default function SettingsPage() {
           </span>
         </div>
 
-        <SectionLabel>Your journey</SectionLabel>
+        <SectionLabel>Your story</SectionLabel>
         <div className="flex flex-col gap-[10px]">
           <Row
             k="See how far you've come"

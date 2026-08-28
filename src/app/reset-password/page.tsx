@@ -27,7 +27,7 @@ export default function ResetPasswordPage() {
       return;
     }
     if (!authConfigured()) {
-      setError("Password reset isn't connected yet — the Supabase keys are missing.");
+      setError("Password reset isn't connected yet. The Supabase keys are missing.");
       return;
     }
     setBusy(true);

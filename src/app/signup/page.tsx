@@ -35,7 +35,7 @@ export default function SignupPage() {
     // freeze the spinner. Fail clearly up front instead.
     if (!authConfigured()) {
       setError(
-        "Accounts aren't connected yet — the Supabase keys are missing from this build (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY). Add them and rebuild.",
+        "Accounts aren't connected yet. The Supabase keys are missing from this build (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY). Add them and rebuild.",
       );
       return;
     }

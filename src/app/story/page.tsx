@@ -11,25 +11,25 @@ type Chapter = {
 const chapters: Chapter[] = [
   {
     season: "This spring",
-    when: "March – now",
+    when: "March to now",
     paras: [
       {
         text: "You came into this season tired in a way sleep wasn't fixing. Over the weeks, you started protecting your evenings, and your mind began to feel clearer. ",
-        em: "You learned that your dread before big meetings was carrying an old story, and naming it took some of its weight.",
+        em: "You said the dread comes before every one of these, and that naming it out loud made those mornings easier.",
       },
       {
         text: "Your eating steadied once you stopped skipping meals on the hard days. Your energy followed, and so did your mood. The bloating that worried you in March eased as your gut settled.",
       },
     ],
-    threads: ["Steadier sleep", "Calmer mind", "Nourishment found its rhythm"],
+    threads: ["Steadier sleep", "Calmer mind", "Steadier eating"],
   },
   {
     season: "Late winter",
-    when: "January – February",
+    when: "January to February",
     paras: [
       {
         text: "A heavier stretch. You were carrying a lot at work and feeling things closer to the surface than usual. ",
-        em: "You were harder on yourself than you needed to be.",
+        em: "You said you were being hard on yourself during these weeks.",
       },
       {
         text: "Your appetite was uneven through these weeks, and you noticed how much your energy depended on whether you'd eaten. You started paying attention to that thread, gently.",
@@ -43,7 +43,7 @@ const chapters: Chapter[] = [
     paras: [
       {
         text: "You found Florence at the end of a long year, looking for somewhere to put it all down. You weren't sure what you needed yet. ",
-        em: "You started by simply showing up.",
+        em: "You started by showing up.",
       },
     ],
     threads: ["The beginning"],
