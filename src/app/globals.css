@@ -7,14 +7,22 @@
   --paper: #ffffff; /* the screen — bright white */
   --paper-soft: #f7f7f7; /* barely-there grey for input fields */
   --blush: #f3f4f3; /* light neutral highlight for selected options */
-  --sage: #97a06e;
   --clay: #b0a06f;
   --clay-soft: #c9be9a;
   --olive: #6e7b4c;
-  --ink: #1f2a22;
-  --ink-soft: #7a7a6c;
   --sand: #ffffff; /* desktop backdrop — also white now */
   --forest: #475333; /* forest green — cycle calendar selected date + accents */
+
+  /* ---- FLORENCE design system (the fifteen build files are the source of
+     truth). Flat white ground, square corners, dark-green ink, one accent,
+     one sage. No other colours. ---- */
+  --ground: #ffffff;
+  --card: #f4f1ea;
+  --ink: #3a4436; /* all text, dark green, never black */
+  --ink-soft: #6a7265;
+  --accent: #4a5340; /* buttons, selected states, scrollbar */
+  --sage: #9ba184; /* hover states, small accents, rules */
+  --line: rgba(58, 68, 54, 0.13); /* hairlines */
 }
 
 @theme inline {
@@ -31,9 +39,25 @@
   --color-sand: var(--sand);
   --color-forest: var(--forest);
 
-  /* Fonts — usable as font-serif / font-sans */
+  /* Design-system colours — usable as bg-ground, text-ink, border-line, etc. */
+  --color-ground: var(--ground);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-line: var(--line);
+
+  /* font-serif/font-sans stay for screens not yet rebuilt to the new design. */
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-figtree);
+}
+
+/* The redesign faces, as first-class utilities.
+   font-display = Playfair Display (headings, wordmark, her words)
+   font-body    = Cormorant (all body copy) */
+@utility font-display {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+@utility font-body {
+  font-family: var(--font-cormorant), Georgia, serif;
 }
 
 body {
