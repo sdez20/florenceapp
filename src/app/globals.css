@@ -66,6 +66,28 @@ body {
   font-family: var(--font-figtree), sans-serif;
 }
 
+/* ---- Arrival sequence ---- */
+/* greeting settles up from ~9px below as it fades in */
+@keyframes flo-rise {
+  from { opacity: 0; transform: translateY(9px); }
+  to   { opacity: 1; transform: none; }
+}
+/* the dashboard blocks arrive one after another, fading up */
+@keyframes flo-reveal {
+  from { opacity: 0; transform: translateY(9px); }
+  to   { opacity: 1; transform: none; }
+}
+/* the greeting leaves */
+@keyframes flo-fade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+/* the faint "tap anywhere" cue, never brighter than 42% */
+@keyframes flo-cue {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 0.42; }
+}
+
 /* Constant soft glow for the check-in reflection dots */
 @keyframes floGlow {
   0%,

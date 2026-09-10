@@ -7,6 +7,8 @@ import PhoneFrame from "@/components/PhoneFrame";
 import BackLink from "@/components/BackLink";
 import { cta, eyebrow } from "@/components/ui";
 import { setStoredName } from "@/lib/user";
+import { saveProfile } from "@/lib/profile";
+import { deviceTimezone } from "@/lib/timezone";
 import { createClient, authConfigured } from "@/lib/supabase/client";
 import { siteUrl } from "@/lib/site-url";
 
@@ -42,6 +44,10 @@ export default function SignupPage() {
     }
 
     setBusy(true);
+    // Capture her IANA time zone, prefilled from the browser. Everything
+    // time-based (the greeting, the daily message, the dashboard date) reads
+    // from this rather than the device clock, so it stays right when she travels.
+    const timezone = deviceTimezone();
     try {
       const supabase = createClient();
       // Supabase Auth creates the user and securely hashes the password
@@ -58,7 +64,7 @@ export default function SignupPage() {
           email: email.trim(),
           password,
           options: {
-            data: { name: name.trim() },
+            data: { name: name.trim(), timezone },
             emailRedirectTo: `${siteUrl()}/auth/confirm?next=/dashboard`,
           },
         }),
@@ -71,6 +77,7 @@ export default function SignupPage() {
       }
 
       setStoredName(name.trim());
+      saveProfile({ timezone });
 
       // Email confirmation on: Supabase returns a user but no session — she must
       // click the emailed link first.

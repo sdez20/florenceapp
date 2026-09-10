@@ -12,6 +12,7 @@ export type Profile = {
   conditions?: string;
   surgeries?: string;
   source?: string;
+  timezone?: string; // IANA string, captured at signup, editable in settings
 };
 
 const PROFILE_KEY = "florence:profile";
